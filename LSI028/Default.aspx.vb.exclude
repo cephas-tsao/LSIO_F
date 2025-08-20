@@ -1,0 +1,440 @@
+﻿Imports System.Data
+Imports System.Drawing
+Partial Class basic_LSI028_Default
+    Inherits PageBase
+    Dim ws As New WebReference.LSIO_WebService
+    Dim s_prgcode As String = "LSI026"
+    Dim s_prgname As String = ws.Get_PrgName(s_prgcode)
+    Dim UserLimit1 As String
+    Dim bPrint As Boolean = False
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        If (Not IsPostBack) Then
+            'setGridViewStyle()
+            setFields()
+            'setCheckBox()
+            setGridViewPage()
+            If txtPgmType.Text = "1" Or txtPgmType.Text = "" Then
+                setGridViewData()
+            Else
+                labor_Click(Me, e)
+                '
+                'Set_DDL_Option("ZipCode", "", ddl_eng_area, "", "---請選擇---", "B")
+                'Set_DDL_Option(ddl_eng_area.SelectedValue, "", ddl_eng_road, "", "---請選擇---", "B")
+                'Set_CKL_Option("pc_kind1", "", ckl_pc_kind1, "", "", "B")
+                'Set_CKL_Option("pc_kind2", "", ckl_pc_kind2, "", "", "B")
+                'Set_CKL_Option("tear_tool1", "", ckl_tear_tool1, "", "", "")
+                'Set_CKL_Option("cage_tool1", "", ckl_cage_tool1, "", "", "")
+                ''進階搜尋預設值
+                'txt_work_date_s_s.Text = Format(Now, "yyyy/MM/") & "01"
+                'txt_work_date_s_e.Text = Format(Now, "yyyy/MM/dd")
+                'txt_work_date_e_s.Text = Format(Now, "yyyy/MM/") & "01"
+                'txt_work_date_e_e.Text = Format(Now, "yyyy/MM/dd")
+
+                '進階搜尋增加點
+                'WebSubMenu.setName("GridView1", "SqlDS2", "txtOrder", "txtSubWhere")
+
+                '設定Row的鍵值組成，具有唯一性
+                Dim KeyNames() As String = {"pc_code"}
+                GridView1.DataKeyNames = KeyNames
+                ws.InsUsrRec(s_prgname, "SRC", s_prgcode, Session("usr_code"), Session("usr_ip"), "", "", "")
+                'txtOrder.Text = " ORDER BY pc_code DESC"
+                'Response.Write(txtOrder.Text)
+                'Response.End()
+            End If
+        End If
+        '程式變數設定
+        UserLimit1 = ws.Get_limit(Session("usr_code"), s_prgcode)
+        'setLimit(UserLimit1)
+
+        '設定查詢欄位
+        SqlDS1.ConnectionString = ws.Get_ConnStr("con_db")
+        'SqlDS2.SelectCommand = Get_SqlStr(s_prgcode, "ddlField")
+
+        '程式抬頭
+        Label1.Text = s_prgname & "(" & s_prgcode & ")"
+
+        '取得預設條件
+        'If Trim(Request("subwhere") & "") <> "" Then txtSubWhere.Text = Replace(Request("subwhere"), "$", "%")
+        ''進階搜尋增加點
+        'If Trim(Request("order") & "") <> "" Then txtOrder.Text = Request("order")
+
+        '設定onclick
+        'CBL_Field1.Items(0).Attributes.Add("onclick", "Chk_All_1()")
+
+        'IB_import.Attributes("onclick") = "subwindow=window.open('FileUpload.aspx','FileUpload','height=260,width=620,top=200,left=400,scrollbars=yes,status=no,toolbar=no,menubar=no,location=no','');subwindow.focus();return false;"
+        'img_date1.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_spc_date")
+        'img_date2.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_epc_date")
+        'img_date3.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_spc_date_s")
+        'img_date4.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_epc_date_s")
+
+        'img_date5.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_spc_date_e")
+        'img_date6.Attributes("onclick") = ws.Set_Calendar("../../public/calendar.aspx", "txt_epc_date_e")
+        '取得資料
+        'setGridViewData()
+        If txtPgmType.Text = "1" Or txtPgmType.Text = "" Then
+            setGridViewData()
+        Else
+            labor_Click(Me, e)
+        End If
+    End Sub
+    Protected Sub setGridViewData()
+        '取得GridView資料
+
+        '設定SqlDataSource連線及Select命令
+        'SqlDS1.ConnectionString = ws.Get_ConnStr("con_db")
+        '進階搜尋增加點
+        'If txtSubWhere.Text <> "" Then
+        '    SqlDS1.SelectCommand = Get_SqlStr(s_prgcode, "SELECT", txtSubWhere.Text, txtOrder.Text)
+        'Else
+        'SqlDS1.SelectCommand = ""
+        'If txtPgmType.Text = "1" Or txtPgmType.Text = "" Then
+
+        '    SqlDS1.SelectCommand = "SELECT * FROM LSI026 where pc_type ='一般科' order by pc_code desc"
+        'Else
+        '    SqlDS1.SelectCommand = "SELECT * FROM LSI026 where pc_type ='勞條科' order by pc_code desc"
+        'End If
+        If drpSites.SelectedValue = "" Then
+            SqlDS1.SelectCommand = "SELECT * FROM LSI026 where pc_type = N'一般科' order by pc_code desc"
+        Else
+
+            SqlDS1.SelectCommand = "SELECT * FROM LSI026 where pc_type = N'" & drpSites.SelectedValue & "' order by pc_code desc"
+        End If
+        'Response.Write(SqlDS1.SelectCommand)
+        'Response.End()
+        '設定Delete命令
+        If SqlDS1.DeleteParameters.Count = 0 Then
+            Dim CtrPara As New ControlParameter("datakeys", "GridView1", "SelectedValue")
+            SqlDS1.DeleteParameters.Add(CtrPara)
+            SqlDS1.DeleteCommand = Get_SqlStr(s_prgcode, "delete")
+        End If
+        '設定GridView資料來源ID
+        If GridView1.DataSourceID Is Nothing Then
+            GridView1.DataSourceID = SqlDS1.ID
+        End If
+
+    End Sub
+    '程式自定區 以下
+
+    Protected Sub setFields()
+        '建立資料繫結欄位
+        Dim pc_code As New BoundField()
+        Dim pc_date As New BoundField()
+        Dim com_name As New BoundField()
+        Dim pc_season As New BoundField()
+        Dim tel As New BoundField()
+        Dim name As New BoundField()
+        Dim cell_phone As New BoundField()
+        Dim pc_file_path As New BoundField()
+        'Dim Down_remarks As New BoundField()
+        'Dim Down_sDate As New BoundField()
+
+        '指定資料來源欄位
+        pc_code.DataField = "pc_code"
+        pc_date.DataField = "pc_date"
+        com_name.DataField = "com_name"
+        pc_season.DataField = "pc_season"
+        tel.DataField = "att_tel1"
+        name.DataField = "att_name1"
+        cell_phone.DataField = "att_cell_phone"
+        pc_file_path.DataField = "pc_file_path"
+        'Down_reason.DataField = "Down_reason"
+
+        '設定欄位標頭名稱
+
+        pc_code.HeaderText = "申報編號"
+        pc_date.HeaderText = "申報日期"
+        com_name.HeaderText = "申報單位"
+        pc_season.HeaderText = "季別"
+        tel.HeaderText = "申報單位電話"
+        name.HeaderText = "聯繫人"
+        cell_phone.HeaderText = "聯繫人手機"
+        'Down_range.HeaderText = "停工範圍"
+        'Down_reason.HeaderText = "停工原因"
+
+
+        '設定欄位是否自動換行(不換行的再設定)
+        'prg_code.ItemStyle.Wrap = False
+
+        '設定排序所對應的欄位
+        'usr_code.SortExpression = "usr_code"
+        'Down_code.SortExpression = "Down_code"
+        'Down_title.SortExpression = "Down_title"
+        'Down_address.SortExpression = "Down_address"
+        'Down_stopDate.SortExpression = "Down_stopDate"
+        'Down_returnDate.SortExpression = "Down_returnDate"
+
+        '欄位寬度(%):要留6%給編輯圖示
+        'usr_code.ItemStyle.Width = Unit.Percentage(1)
+        pc_code.ItemStyle.Width = Unit.Percentage(5)
+        pc_date.ItemStyle.Width = Unit.Percentage(15)
+        com_name.ItemStyle.Width = Unit.Percentage(26)
+        pc_season.ItemStyle.Width = Unit.Percentage(5)
+        tel.ItemStyle.Width = Unit.Percentage(11)
+        name.ItemStyle.Width = Unit.Percentage(11)
+        cell_phone.ItemStyle.Width = Unit.Percentage(11)
+        pc_file_path.ItemStyle.CssClass = "hiddencol"
+        'pc_file_path.ItemStyle.Width = 0
+        'pc_file_path.ItemStyle.Width = Unit.Percentage(1)
+        '設定欄位標題顏色
+        pc_code.HeaderStyle.CssClass = "grid1"
+        pc_date.HeaderStyle.CssClass = "grid1"
+        com_name.HeaderStyle.CssClass = "grid1"
+        pc_season.HeaderStyle.CssClass = "grid1"
+        tel.HeaderStyle.CssClass = "grid1"
+        name.HeaderStyle.CssClass = "grid1"
+        cell_phone.HeaderStyle.CssClass = "grid1"
+
+        '設定欄位的水平對齊
+        'usr_code.ItemStyle.HorizontalAlign = HorizontalAlign.Center
+        pc_code.ItemStyle.HorizontalAlign = HorizontalAlign.Center
+        pc_date.ItemStyle.HorizontalAlign = HorizontalAlign.Center
+        com_name.ItemStyle.HorizontalAlign = HorizontalAlign.Center
+        'pet_date.ItemStyle.HorizontalAlign = HorizontalAlign.Center
+
+        '設定欄位是否顯示(不顯示的再設定)
+        'Down_X.Visible = False
+        GridView1.Columns.Add(pc_code)
+        GridView1.Columns.Add(pc_date)
+        GridView1.Columns.Add(com_name)
+        GridView1.Columns.Add(pc_season)
+        GridView1.Columns.Add(tel)
+        GridView1.Columns.Add(name)
+        GridView1.Columns.Add(cell_phone)
+        GridView1.Columns.Add(pc_file_path)
+        'pc_file_path.Visible = False
+        'GridView1.Columns..Visible = False
+        'GridView1.Columns.Add(pet_date)
+        'pet_date.Visible = False
+    End Sub
+    Protected Sub GridView1_RowDeleting(ByVal sender As Object, ByVal e As System.Web.UI.WebControls.GridViewDeleteEventArgs) Handles GridView1.RowDeleting
+        Dim KeyNames() As String = {"pc_code"}
+        GridView1.DataKeyNames = KeyNames
+        GridView1.SelectedIndex = e.RowIndex
+        ' Dim txtDataKey As String = GridView1.SelectedIndex
+        If GridView1.SelectedDataKey Is Nothing Then
+            GridView1.DataSourceID = SqlDS1.ID
+            GridView1.DataBind()
+        End If
+        Dim txtDataKey As String = GridView1.SelectedDataKey.Value.ToString
+        If Not txtDataKey = "" Then
+            '設定記錄資料
+            Dim sSql As String = Get_SqlStr(s_prgcode, "Detail", txtDataKey)
+            Dim sFieldName As String = ws.Get_FieldName(s_prgcode)
+            Dim sOldData As String = ws.Get_OldData(sSql, s_prgcode)
+            Dim sNewData As String = Get_NewData(s_prgcode, "DEL")
+            'SqlDS1.ConnectionString = ws.Get_ConnStr("con_db")
+            '設定Delete命令
+            Dim CtrPara As New ControlParameter("datakeys", "GridView1", "SelectedValue")
+            'SqlDS1.DeleteParameters.Add(CtrPara)
+            SqlDS1.DeleteCommand = Get_SqlStr(s_prgcode, "DELETE")
+            SqlDS1.Delete()
+            ws.InsUsrRec(txtDataKey, "DEL", s_prgcode, Session("usr_code"), Session("usr_ip"), sFieldName, sOldData, sNewData)
+        End If
+        GridView1.SelectedIndex = -1
+        If SqlDS1.SelectCommand = "" Then
+            setGridViewData()
+
+        End If
+        GridView1.DataBind()
+
+    End Sub
+    Protected Sub GridView1_DataBinding(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.DataBinding
+        '取得資料
+        setGridViewData()
+    End Sub
+    Protected Sub IB_GV1_First1_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_First1.Click
+        GridView1.PageIndex = 0
+        GridView1.DataBind()
+    End Sub
+    Protected Sub setGridViewPage()
+        '設定GridView的分頁樣式
+        GridView1.PagerSettings.Mode = PagerButtons.NextPreviousFirstLast
+        GridView1.PagerSettings.Visible = False
+        'GridView1.PagerSettings.FirstPageImageUrl = "~/Images/First.gif"
+        'GridView1.PagerSettings.FirstPageText = "第一頁"
+        'GridView1.PagerSettings.PreviousPageImageUrl = "~/Images/Previous.gif"
+        'GridView1.PagerSettings.PreviousPageText = "上一頁"
+        'GridView1.PagerSettings.NextPageImageUrl = "~/Images/Next.gif"
+        'GridView1.PagerSettings.NextPageText = "下一頁"
+        'GridView1.PagerSettings.LastPageImageUrl = "~/Images/Last.gif"
+        'GridView1.PagerSettings.LastPageText = "最後頁"
+    End Sub
+    Protected Sub GridView1_DataBound(ByVal sender As Object, ByVal e As System.EventArgs) Handles GridView1.DataBound
+        '取得資料總筆數
+        Dim dt_tmp As DataTable = Get_DataSet(s_prgcode, "SqlStr", SqlDS1.SelectCommand).Tables(0)
+        'If dt_tmp Is Nothing Then
+        '    Label2.Text = "總筆數：0/總頁數:" & GridView1.PageCount.ToString() & "/每頁筆數:" & GridView1.PageSize.ToString()
+        'Else
+        '    Label2.Text = "總筆數：" & CStr(dt_tmp.Rows.Count) & "/總頁數:" & GridView1.PageCount.ToString() & "/每頁筆數:" & GridView1.PageSize.ToString()
+
+        ''有資料才秀()
+        'If CInt(dt_tmp.rows.count) > 0 Then
+        '    Dim bottonPagerRow As GridViewRow = GridView1.BottomPagerRow
+        '    Dim bottonPagerNo As New Label()
+        '    '進階搜尋增加點
+        '    If Not bottonPagerRow Is Nothing Then
+        '        bottonPagerNo.Text = "目前所在分頁碼 (" & (GridView1.PageIndex + 1) & "/" & GridView1.PageCount.ToString() & ")"
+        '        bottonPagerRow.Cells(0).Controls.Add(bottonPagerNo)
+        '    End If
+        'End If
+
+        '設定分頁訊息
+        l_PageMsg.Visible = False
+        If GridView1.PageCount > 1 Then
+            l_PageMsg.Visible = True
+            l_PageMsg.Text = "　目前所在分頁碼 (" & (GridView1.PageIndex + 1) & "/" & GridView1.PageCount.ToString() & ")"
+        End If
+        'End If
+        ViewState("LineNo") = 0
+
+        If bPrint = False Then
+            For Each Row As GridViewRow In GridView1.Rows
+                'If Row.Cells(20).Text >= Format(Now, "yyyy/MM/dd") And Row.Cells(20).Text <= Format(Now.AddDays(3), "yyyy/MM/dd") Then
+                'Row.Cells(3).Text &= "<img src='../images/icon/new2.png' />"
+                'End If
+            Next
+        Else
+            For Each Row As GridViewRow In GridView1.Rows
+                'If Row.Cells(20).Text >= Format(Now, "yyyy/MM/dd") And Row.Cells(20).Text <= Format(Now.AddDays(3), "yyyy/MM/dd") Then
+                'Row.Cells(3).Text &= " - NEW"
+                ' End If
+            Next
+        End If
+
+        '設定分頁按鈕是否顯示
+        IB_GV1_First1.Visible = False
+        IB_GV1_First2.Visible = False
+        IB_GV1_Previous1.Visible = False
+        IB_GV1_Previous2.Visible = False
+        IB_GV1_Next1.Visible = False
+        IB_GV1_Next2.Visible = False
+        IB_GV1_Last1.Visible = False
+        IB_GV1_Last2.Visible = False
+
+        If GridView1.PageCount > 1 Then
+            '分頁數量大於一頁
+            If GridView1.PageIndex <> 0 Then
+                IB_GV1_First1.Visible = True
+                IB_GV1_First2.Visible = True
+                IB_GV1_Previous1.Visible = True
+                IB_GV1_Previous2.Visible = True
+            End If
+
+            If GridView1.PageIndex <> GridView1.PageCount - 1 Then
+                IB_GV1_Next1.Visible = True
+                IB_GV1_Next2.Visible = True
+                IB_GV1_Last1.Visible = True
+                IB_GV1_Last2.Visible = True
+            End If
+        End If
+    End Sub
+    Protected Sub ImgSelect_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs)
+        Dim row As GridViewRow = DirectCast(DirectCast(sender, ImageButton).NamingContainer, GridViewRow)
+        DirectCast(row.NamingContainer, GridView).SelectedIndex = row.RowIndex
+
+        Dim vlaue = GridView1.Rows(row.RowIndex).Cells(10).Text
+
+        Dim url As String = "https://service2.lio.gov.taipei/LSIO_F/upload/File_LSI026/" + vlaue
+        Dim s As String = "window.open('" & url + "', 'popup_window', 'width=520,height=570,status=yes,location=yes');"
+
+        ClientScript.RegisterStartupScript(Me.GetType(), "script", s, True)
+
+
+    End Sub
+
+    Protected Sub OpenWindow(sender As Object, e As EventArgs, url As String)
+        'Dim url As String = "Popup.aspx"
+        Dim s As String = "window.open('" & url + "', 'popup_window', 'width=300,height=100,left=100,top=100,resizable=yes');"
+        ClientScript.RegisterStartupScript(Me.GetType(), "script", s, True)
+    End Sub
+
+    Protected Sub IB_GV1_Previous1_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Previous1.Click
+        GridView1.PageIndex -= 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_Next1_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Next1.Click
+        GridView1.PageIndex += 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_Last1_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Last1.Click
+        GridView1.PageIndex = GridView1.PageCount - 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_First2_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_First2.Click
+        GridView1.PageIndex = 0
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_Previous2_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Previous2.Click
+        GridView1.PageIndex -= 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_Next2_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Next2.Click
+        GridView1.PageIndex += 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub IB_GV1_Last2_Click(ByVal sender As Object, ByVal e As System.Web.UI.ImageClickEventArgs) Handles IB_GV1_Last2.Click
+        GridView1.PageIndex = GridView1.PageCount - 1
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub OnSelectedIndexChanged(sender As Object, e As EventArgs)
+        Dim message As String = drpSites.SelectedItem.Text & " - " & drpSites.SelectedItem.Value
+
+        GridView1.DataBind()
+        ' ClientScript.RegisterStartupScript(Me.GetType(), "alert", "alert('" & message & "');", True)
+    End Sub
+
+    Protected Sub labor_Click(sender As Object, e As EventArgs)
+
+        GridView1.DataSourceID = ""
+        SqlDS1.SelectCommand = ""
+        '設定SqlDataSource連線及Select命令
+        SqlDS1.ConnectionString = ws.Get_ConnStr("con_db")
+        '進階搜尋增加點
+        'If txtSubWhere.Text <> "" Then
+        '    SqlDS1.SelectCommand = Get_SqlStr(s_prgcode, "SELECT", txtSubWhere.Text, txtOrder.Text)
+        'Else
+        GridView1.DataSource = SqlDS1
+        SqlDS1.SelectCommand = "SELECT * FROM LSI026 where pc_type =N" & drpSites.SelectedValue & " order by pc_code desc"
+        'End If
+        'Response.Write(SqlDS1.SelectCommand)
+        'Response.End()
+        '設定Delete命令
+        Dim CtrPara As New ControlParameter("datakeys", "GridView1", "SelectedValue")
+        SqlDS1.DeleteParameters.Add(CtrPara)
+        SqlDS1.DeleteCommand = Get_SqlStr(s_prgcode, "DELETE")
+        txtPgmType.Text = "2"
+        '設定GridView資料來源ID
+        If GridView1.DataSourceID Is Nothing Then
+            GridView1.DataSourceID = SqlDS1.ID
+            GridView1.DataBind()
+        End If
+
+
+    End Sub
+
+
+    Protected Sub normal_Click(sender As Object, e As EventArgs)
+        txtPgmType.Text = "1"
+        setGridViewData()
+        GridView1.DataBind()
+    End Sub
+
+    Protected Sub ImageButton4_Click(sender As Object, e As ImageClickEventArgs)
+        Dim row As GridViewRow = DirectCast(DirectCast(sender, ImageButton).NamingContainer, GridViewRow)
+        DirectCast(row.NamingContainer, GridView).SelectedIndex = row.RowIndex
+
+        Dim vlaue = GridView1.Rows(row.RowIndex).Cells(3).Text
+
+        Dim url As String = "https://service2.lio.gov.taipei/LSIO_F/Supload/" + vlaue
+        Dim s As String = "window.open('" & url + "', 'popup_window', 'width=520,height=570,status=yes,location=yes');"
+
+        ClientScript.RegisterStartupScript(Me.GetType(), "script", s, True)
+    End Sub
+End Class

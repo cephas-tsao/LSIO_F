@@ -1,0 +1,424 @@
+﻿Imports System.Data
+
+Partial Class basic_LSI025_edit
+    Inherits PageBase
+
+    Dim ws As New WebReference.LSIO_WebService
+    Dim s_prgcode As String = "LSI025"
+
+    Protected Sub Button1_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Button1.Click
+        Dim pc_date_s As String = ""
+        Dim pc_date_e As String = ""
+        pc_date_s = ddl_year_s.SelectedValue & "/" & ddl_month_s.SelectedValue & "/" & ddl_date_s.SelectedValue
+        pc_date_e = ddl_year_e.SelectedValue & "/" & ddl_month_e.SelectedValue & "/" & ddl_date_e.SelectedValue
+        '自動編號
+        If txtPgmType.Text <> "MDY" Then txt_pc_code.Text = "PC" & Format(Now, "yyMMdd") & Right("0000" & Get_AutoIntMax("Precise_Check", "RIGHT(pc_code, 10)", " WHERE pc_code LIKE 'PC" & Format(Now, "yyMMdd") & "%'") + 1, 4)
+
+        '檢查資料正確性
+        If Chk_data() = False Then Exit Sub
+
+        '設定Key欄位來源
+        Dim sKeyPrimary As String = txtPrimary.Text '*修改處*
+
+        '設定記錄資料
+        Dim sSql As String = Get_SqlStr(s_prgcode, "Detail", sKeyPrimary)
+        Dim sFieldName As String = ws.Get_FieldName(s_prgcode)
+        Dim sOldData As String = ws.Get_OldData(sSql, s_prgcode)
+        Dim sNewData As String = Get_NewData(s_prgcode)
+
+        '資料存檔
+        Dim Pgm_Type As String = txtPgmType.Text
+        Dim PrgMemo As String = RepSql(Label1.Text & ":" & sKeyPrimary)
+
+        If SaveEditData(s_prgcode, Pgm_Type, txt_pc_code.Text, txt_com_name.Text, txt_att_tel1.Text, txt_att_name1.Text, txt_att_mail.Text, txt_att_cell_phone.Text, txt_pc_date.Text, _
+                 txt_eng_name.Text, txt_device_no.Text, txt_tax_id.Text,txt_tax_id.Text,txt_eng_code.Text, ddl_eng_area.SelectedValue, ddl_eng_road.SelectedValue, txt_eng_add.Text, txt_eng_floor.Text, pc_date_s, pc_date_e, Get_CKL_Click(chk_pc_kind1), _
+				 ) Then
+
+
+            '儲存使用紀錄
+            ws.InsUsrRec(PrgMemo, Pgm_Type, s_prgcode, Session("usr_code"), Session("usr_ip"), sFieldName, sOldData, sNewData)
+
+            If Pgm_Type <> "MDY" Then
+                '取得最新條件
+                If txtSubWhere.Text <> "" Then
+                    txtSubWhere.Text &= " OR pc_code='" & RepSql(sKeyPrimary) & "' "
+                Else
+                    txtSubWhere.Text = " WHERE pc_code='" & RepSql(sKeyPrimary) & "' "
+                End If
+            End If
+            '存檔正確導回default頁面
+            Response.Redirect("Default.aspx?subwhere=" & Replace(txtSubWhere.Text, "%", "$") & "&order=" & txtOrder.Text)
+        Else
+            '存檔出錯就秀出錯誤訊息
+            Show_Message("儲存失敗!")
+        End If
+    End Sub
+
+    Protected Function Chk_data() As Boolean
+        Dim pc_date As String = ""
+        Dim pc_date_s As String = ""
+        Dim pc_date_e As String = ""
+        pc_date = txt_pc_date.Text
+        pc_date_s = ddl_year_s.SelectedValue & "/" & ddl_month_s.SelectedValue & "/" & ddl_date_s.SelectedValue
+        pc_date_e = ddl_year_e.SelectedValue & "/" & ddl_month_e.SelectedValue & "/" & ddl_date_e.SelectedValue
+        'Server端資料檢查 自訂函數
+        Chk_data = True
+
+        '檢查重覆資料
+        If txtPgmType.Text = "ADD" Or txtPgmType.Text = "COPY" Then
+            If Chk_RelData(s_prgcode, "", txt_pc_code.Text) = False Then
+                Chk_data = False
+                Show_Message("有重覆參數名稱，請確認")
+            End If
+
+        End If
+        '檢查資料正確性       
+        If Chk_Tel(txt_att_tel1.Text) = False Then
+            Chk_data = False
+            Show_Message("聯絡電話格式不正確，請確認")
+        End If
+
+        'If Chk_Mob(txt_att_cell_phone.Text) = False Then
+            'Chk_data = False
+            'Show_Message("手機格式不正確，請確認")
+        'End If
+
+        If txt_att_mail.Text <> "" Then
+            If Chk_Email(txt_att_mail.Text) = False Then
+                Chk_data = False
+                Show_Message("電子信箱格式不正確，請確認")
+            End If
+        End If
+
+        If pc_date > pc_date_s Then
+            Chk_data = False
+            Show_Message("開工日期不得在通報日期之前，請確認")
+        End If
+
+        If pc_date_s > pc_date_e Then
+            Chk_data = False
+            Show_Message("完工日期不得在開工日期之前，請確認")
+        End If
+
+        If Chk_DateForm(pc_date) = True And Chk_DateForm(pc_date_s) = True Then
+            Dim pc_ndate As Date = FormatDateTime(pc_date, DateFormat.ShortDate)
+            Dim pc_sdate As Date = FormatDateTime(pc_date_s, DateFormat.ShortDate)
+            'If DateDiff(DateInterval.Day, pc_ndate, pc_sdate) > "3" Then
+                'Chk_data = False
+                'Show_Message("預計開工日期限定在通報當日往後3天內(含)，請確認")
+            'End If
+        End If
+
+        '檢查必填欄位是否空白
+        If RepSql(txt_com_name.Text) = "" Or RepSql(txt_att_name1.Text) = "" Or RepSql(txt_eng_name.Text) = "" Or RepSql(txt_eng_add.Text) = "" _
+                                  Or (Chk_chk_pc_kind1() = False) Or txt_att_mail.Text = "" Or txt_att_cell_phone.Text = "" _
+                                  Or txt_att_tel1.Text = ""  Or RepSql(txt_eng_code.Text) = "" Or ddl_eng_area.SelectedValue = "" _
+                                  Then
+            Chk_data = False
+            Show_Message("必填欄位不得為空白，請確認")
+        End If
+		'If Chk_chk_pc_kind1() = True And Chk_chk_pc_kind2() = True Then
+            'Chk_data = False
+            'Show_Message("丁類危險性工作場所主要危害作業與機械作業只能擇一勾選，請確認")
+        'End If
+		
+    End Function
+
+    Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        '接收default頁面變數
+        If Not IsPostBack Then
+            SetClientCheck()
+            Set_DDL_Option("ZipCode", "110", ddl_eng_area, "", "---請選擇---", "B")
+            Set_DDL_Option(ddl_eng_area.SelectedValue, "", ddl_eng_road, "", "---請選擇---", "B")
+            Set_CKL_Option("tower_type", "", chk_pc_kind1, "", "", "B")
+	    Set_CKL_Option("tower_typ2", "", chk_pc_kind2, "", "", "B")
+            Set_Date_DDL()
+            ddl_pc_date_s_SelectedIndexChanged()
+            ddl_pc_date_e_SelectedIndexChanged()
+
+            '標頭 
+            Label1.Text = CType(PreviousPage.FindControl("Label1"), Label).Text
+            '編輯模式
+            txtPgmType.Text = CType(PreviousPage.FindControl("txtPgmType"), TextBox).Text
+            '首頁條件
+            txtSubWhere.Text = CType(PreviousPage.FindControl("txtsubwhere"), TextBox).Text
+            txtOrder.Text = CType(PreviousPage.FindControl("txtOrder"), TextBox).Text
+            '非新增模式則預設取得資料
+            Dim Pgm_type As String = txtPgmType.Text
+            txtPrimary.Text = CType(PreviousPage.FindControl("txtPrimary"), TextBox).Text
+
+            If Pgm_type = "MDY" Then l_PgmType.Text = "[修改模式]" Else l_PgmType.Text = "[新增模式]"
+
+            Select Case Pgm_type
+                Case "ADD"
+                    txt_pc_date.Text = Format(Now, "yyyy/MM/dd")
+                    ddl_year_s.SelectedValue = Format(Now, "yyyy")
+                    ddl_month_s.SelectedValue = Format(Now, "MM")
+                    ddl_date_s.SelectedValue = Format(Now, "dd")
+                    ddl_year_e.SelectedValue = Format(Now, "yyyy")
+                    ddl_month_e.SelectedValue = Format(Now, "MM")
+                    ddl_date_e.SelectedValue = Format(Now, "dd")
+                Case "MDY", "COPY"
+                    Dim Dt_tmp As DataTable = Get_DataSet(s_prgcode, "Detail", txtPrimary.Text).Tables(0)
+                    If Dt_tmp.Rows.Count > 0 Then
+                        txt_pc_code.Text = Trim(Dt_tmp.Rows(0).Item("pc_code") & "")
+                        txt_eng_name.Text = Trim(Dt_tmp.Rows(0).Item("eng_name") & "")
+                        ddl_eng_area.SelectedValue = Trim(Dt_tmp.Rows(0).Item("eng_area") & "")
+                        ddl_eng_road.Items.Clear()
+                        Set_DDL_Option(ddl_eng_area.SelectedValue, "", ddl_eng_road, "", "---請選擇---", "B")
+                        ddl_eng_road.SelectedValue = Trim(Dt_tmp.Rows(0).Item("eng_road") & "")
+                        txt_eng_add.Text = Trim(Dt_tmp.Rows(0).Item("eng_add") & "")
+                        txt_att_name1.Text = Trim(Dt_tmp.Rows(0).Item("att_name1") & "")
+                        txt_att_tel1.Text = Trim(Dt_tmp.Rows(0).Item("att_tel1") & "")
+                        txt_com_name.Text = Trim(Dt_tmp.Rows(0).Item("com_name") & "")
+                        txt_att_cell_phone.Text = Trim(Dt_tmp.Rows(0).Item("att_cell_phone") & "")
+                        txt_att_mail.Text = Trim(Dt_tmp.Rows(0).Item("att_mail") & "")
+                        txt_pc_date.Text = Trim(Dt_tmp.Rows(0).Item("pc_date") & "")
+                        Set_CKL_Click(Trim(Dt_tmp.Rows(0).Item("tower_type") & ""), chk_pc_kind1, "pc_kind1")
+			Set_CKL_Click(Trim(Dt_tmp.Rows(0).Item("tower_typ2") & ""), chk_pc_kind2, "pc_kind2")
+                        Dim sSpilt = Split(Trim(Dt_tmp.Rows(0).Item("pc_date_s") & ""), "/")
+                        ddl_year_s.SelectedValue = sSpilt(0)
+                        ddl_month_s.SelectedValue = sSpilt(1)
+                        ddl_date_s.SelectedValue = sSpilt(2)
+                        Dim eSpilt = Split(Trim(Dt_tmp.Rows(0).Item("pc_date_e") & ""), "/")
+                        ddl_year_e.SelectedValue = eSpilt(0)
+                        ddl_month_e.SelectedValue = eSpilt(1)
+                        ddl_date_e.SelectedValue = eSpilt(2)
+                        txt_eng_floor.Text = Trim(Dt_tmp.Rows(0).Item("eng_floor") & "")
+txt_device_no.Text = Trim(Dt_tmp.Rows(0).Item("device_no") & "")
+txt_tax_id.Text = Trim(Dt_tmp.Rows(0).Item("tax_id") & "")
+                        txt_eng_code.Text = Trim(Dt_tmp.Rows(0).Item("eng_code") & "")
+                    End If
+
+                    If Pgm_type = "COPY" Then
+                        txt_pc_code.Text = ""
+                        txt_pc_code.Enabled = False
+                    Else
+                        txt_pc_code.Enabled = False
+                        Bt_send.Visible = True
+                    End If
+            End Select
+        End If
+        l_ErrMsg.Text = ""
+    End Sub
+
+    Protected Sub SetClientCheck()
+        '網頁伺服器端檢查點建置
+        'txt_par_value.Attributes("onblur") = "javascript:IsEmpty(this);"
+    End Sub
+    Protected Sub Bt_BackUp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Bt_BackUp.Click
+        Response.Redirect("Default.aspx?subwhere=" & Replace(txtSubWhere.Text, "%", "$") & "&order=" & txtOrder.Text)
+    End Sub
+    Protected Sub Show_Message(ByVal sMsg As String)
+        Dim ErrMsg_Type As String = ws.Get_SysPara("ErrMsg_Type", "0")
+
+        If ErrMsg_Type = "0" Or ErrMsg_Type = "2" Then
+            '彈出式對話方塊
+            Me.Page.Form.Controls.Add(New LiteralControl("<script>alert('" & sMsg & "');</script>"))
+        End If
+
+        If ErrMsg_Type = "1" Or ErrMsg_Type = "2" Then
+            '下方紅字訊息
+            l_ErrMsg.Text &= sMsg & "<br />"
+        End If
+    End Sub
+
+    Protected Sub ddl_eng_area_SelectedIndexChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles ddl_eng_area.SelectedIndexChanged
+        ddl_eng_road.Items.Clear()
+        Set_DDL_Option(ddl_eng_area.SelectedValue, "", ddl_eng_road, "", "---請選擇---", "B")
+    End Sub
+
+    Protected Sub Bt_send_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles Bt_send.Click
+        '發送Mail通知
+            Dim dtMail As New DataTable
+            Dim column1 As New DataColumn
+            Dim column2 As New DataColumn
+            column1.DataType = System.Type.GetType("System.String")
+            column2.DataType = System.Type.GetType("System.String")
+            dtMail.Columns.Add(column1)
+            dtMail.Columns.Add(column2)
+            '加入通報人Mail
+            Dim rowMail As DataRow = dtMail.NewRow
+            rowMail(0) = txt_att_mail.Text
+            rowMail(1) = txt_att_name1.Text
+            dtMail.Rows.Add(rowMail)
+
+            '加入承辦人信箱
+            Dim MailList As String() = Split(Get_SysPara("PC_receive"), "|")
+            For i As Integer = 0 To UBound(MailList)
+                If String.IsNullOrEmpty(MailList(i)) = False Then
+                    Dim rowTmp As DataRow = dtMail.NewRow
+                    rowTmp(0) = MailList(i)
+                    rowTmp(1) = "塔式起重機事業單位回報通報承辦人"
+                    dtMail.Rows.Add(rowTmp)
+                End If
+            Next
+        '郵件內容
+            Dim bFirst As Boolean = True
+
+            bFirst = True
+            Dim pckind1list As String = ""
+            For i As Integer = 0 To chk_pc_kind1.Items.Count - 1
+                If chk_pc_kind1.Items(i).Selected = True Then
+                If bFirst = False Then pckind1list &= "<br>"
+                bFirst = False
+                    pckind1list &= chk_pc_kind1.Items(i).Text
+                End If
+            Next
+			
+			Dim pckind2list As String = ""
+            For i As Integer = 0 To chk_pc_kind2.Items.Count - 1
+                If chk_pc_kind2.Items(i).Selected = True Then
+                If bFirst = False Then pckind2list &= "<br>"
+                bFirst = False
+                    pckind2list &= chk_pc_kind2.Items(i).Text
+                End If
+            Next
+			
+			Dim nSpilt = Split(Trim(txt_pc_date.Text & ""), "/")
+
+        Dim sBody As String = "" & _
+                "<table cellpadding=5 cellspacing=0 bordercolor=#7EBAD1 border=1 bgcolor=#ffffff style='border-collapse:collapse;'" & _
+                "width='720' summary='排版表格' align=center class='c12'>" & _
+                "<tr bgcolor='#7EBAD1' align='center'><td colspan='20'><p><strong>塔式起重機事業單位回報通報</strong></p></td></tr>" & _
+                "<tr><td colspan='20' bgcolor='#9EDAF1' align='center'><font color=red>事業單位資料</font></td></tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>通報單位：</td>" & _
+                "  <td colspan='16'>" & RepSql(txt_com_name.Text) & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>聯絡人：</td>" & _
+                "  <td colspan='6'>" & RepSql(txt_att_name1.Text) & "</td>" & _
+                "  <td colspan='4'>電子信箱：</td>" & _
+                "  <td colspan='6'>" & txt_att_mail.Text & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>聯絡電話：</td>" & _
+                "  <td colspan='6'>" & RepSql(txt_att_tel1.Text) & "</td>" & _
+                "  <td colspan='4'>手機：</td>" & _
+                "  <td colspan='6'>" & txt_att_cell_phone.Text & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>通報日期：</td>" & _
+                "  <td colspan='16'>西元 " & nSpilt(0) & " 年 " & _
+                                            nSpilt(1) & " 月 " & _
+                                            nSpilt(2) & " 日 </td>" & _
+                "</tr>" & _
+                "<tr><td colspan='20' bgcolor='#9EDAF1' align='center'><font color=red>承攬資料</font></td></tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>工程名稱：</td>" & _
+                "  <td colspan='6'>" & RepSql(txt_eng_name.Text) & "</td>" & _
+                "  <td colspan='4'>建號：</td>" & _
+                "  <td colspan='6'>" & txt_eng_code.Text & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>工程地址：</td>" & _
+                "  <td colspan='16'>臺北市" & ddl_eng_area.SelectedItem.Text & ddl_eng_road.SelectedItem.Text & RepSql(txt_eng_add.Text) & "</td>" & _
+                "</tr>" & _
+ "<tr>" & _
+                "  <td colspan='4'>鋼印編號：</td>" & _
+                "  <td colspan='16'>" & RepSql(txt_device_no.Text) & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>作業區域及樓層：</td>" & _
+                "  <td colspan='16'>" & RepSql(txt_eng_floor.Text) & "</td>" & _
+                "</tr>" & _
+                "<tr>" & _
+                "  <td colspan='4'>預計施工期間：</td>" & _
+                "  <td colspan='16'>起: 西元" & ddl_year_s.SelectedValue & " 年 " & _
+                                                 ddl_month_s.SelectedValue & " 月 " & _
+                                                 ddl_date_s.SelectedValue & " 日<br>" & _
+                                  "迄: 西元" & ddl_year_e.SelectedValue & " 年 " & _
+                                                 ddl_month_e.SelectedValue & " 月 " & _
+                                                 ddl_date_e.SelectedValue & " 日" & _
+                "</td>" & _
+                "<tr>" & _
+                "  <td colspan='4'>定檢點：</td>" & _
+                "  <td colspan='8' VALIGN='top'><br>" & pckind1list & "</td>" & _	
+                "</tr>" & _
+                "</table>"
+
+        If SendMail("臺北市勞動檢查處-申辦服務-塔式起重機事業單位回報通報-送出成功", dtMail, sBody, s_prgcode) Then
+            Show_Message("送出成功")
+        Else
+            Show_Message("送出失敗，請通知系統管理員")
+            Exit Sub
+        End If
+    End Sub
+
+    Protected Sub Set_Date_DDL()
+        For i As Integer = Year(Now) To Year(Now) + 1
+            ddl_year_s.Items.Add(New ListItem(i))
+            ddl_year_e.Items.Add(New ListItem(i))
+        Next
+        For i As Integer = 1 To 12
+            ddl_month_s.Items.Add(New ListItem(i.ToString("00")))
+            ddl_month_e.Items.Add(New ListItem(i.ToString("00")))
+        Next
+
+        ddl_year_s.SelectedValue = Year(Now)
+        ddl_month_s.SelectedValue = Month(Now).ToString("00")
+        ddl_year_e.SelectedValue = Year(Now)
+        ddl_month_e.SelectedValue = Month(Now).ToString("00")
+    End Sub
+
+    Protected Function Chk_chk_pc_kind1() As Boolean
+        '有勾選任何選項
+        For i As Integer = 0 To chk_pc_kind1.Items.Count - 1
+            If chk_pc_kind1.Items(i).Selected = True Then Return True
+        Next
+        '無填寫資料
+        Return False
+    End Function
+	
+	Protected Function Chk_chk_pc_kind2() As Boolean
+        '有勾選任何選項
+        For i As Integer = 0 To chk_pc_kind2.Items.Count - 1
+            If chk_pc_kind2.Items(i).Selected = True Then Return True
+        Next
+        '無填寫資料
+        Return False
+    End Function
+
+    Public Function Chk_Mob(ByVal str As String) As Boolean
+        If String.IsNullOrEmpty(str) = True Then Return False
+        If Len(str) <> 11 Then Return False
+        If Mid(str, 1, 2) <> "09" Then
+            Return False
+        End If
+        If Mid(str, 5, 1) <> "-" Then
+            Return False
+        End If
+        For i As Integer = 0 To str.Trim.Length - 1
+            Dim s As String = str.Chars(i)
+            If (Asc(str.Chars(i)) < 48 Or Asc(str.Chars(i)) > 57) And Asc(str.Chars(i)) <> 35 And Asc(str.Chars(i)) <> 40 And Asc(str.Chars(i)) <> 41 And Asc(str.Chars(i)) <> 43 And Asc(str.Chars(i)) <> 45 Then
+                Return False
+            End If
+        Next
+        Return True
+        'Return Regex.IsMatch(str, "(\d+-)?(\d{4}-?\d{7}|\d{2,3}-?\d{7,8}|^\d{7,8})(-\d+)?")
+    End Function
+
+    Private Sub ddl_pc_date_s_SelectedIndexChanged() Handles ddl_year_s.SelectedIndexChanged, ddl_month_s.SelectedIndexChanged
+        Dim day_start As String = ddl_date_s.SelectedValue
+        ddl_date_s.Items.Clear()
+        For i As Integer = 1 To Date.DaysInMonth(ddl_year_s.SelectedValue, ddl_month_s.SelectedValue)
+            ddl_date_s.Items.Add(i.ToString("00"))
+            If i.ToString("00") = day_start Then
+                ddl_date_s.SelectedValue = day_start
+            End If
+        Next
+    End Sub
+
+    Private Sub ddl_pc_date_e_SelectedIndexChanged() Handles ddl_year_e.SelectedIndexChanged, ddl_month_e.SelectedIndexChanged
+        Dim day_end As String = ddl_date_e.SelectedValue
+        ddl_date_e.Items.Clear()
+        For i As Integer = 1 To Date.DaysInMonth(ddl_year_e.SelectedValue, ddl_month_e.SelectedValue)
+            ddl_date_e.Items.Add(i.ToString("00"))
+            If i.ToString("00") = day_end Then
+                ddl_date_e.SelectedValue = day_end
+            End If
+        Next
+    End Sub
+
+End Class

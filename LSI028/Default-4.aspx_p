@@ -1,0 +1,398 @@
+﻿<%@ Page Language="VB" AutoEventWireup="false"  validateRequest="False" ContentType="text/html" ResponseEncoding="utf-8"  Debug="true" %>
+
+<%
+response.Buffer = true
+session.Codepage =65001
+response.Charset = "utf-8"
+%>
+<%@ Import Namespace = "System.Data" %>
+<%@ Import Namespace = "System.Data.SqlClient" %>
+<%@ Import NameSpace = "System.IO"%>
+<%@ Import NameSpace = "System.Web.Configuration" %>
+<%
+Dim Conn As SqlConnection = New SqlConnection
+      Conn.ConnectionString = WebConfigurationManager.ConnectionStrings("AppSysConnectionString").ConnectionString
+%>
+	
+<%@ Register src="../../usercontrol/WebUserMenu.ascx" tagname="WebUserMenu" tagprefix="uc1" %>
+<%@ Register src="../../usercontrol/WebSubMenu.ascx" tagname="WebSubMenu" tagprefix="uc2" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+<title><%=ConfigurationManager.AppSettings("Prj_name")%></title>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+
+<script src="js/jquery.min.js"></script>
+<script type="text/javascript" defer src="js/alphafilter.js"></script>
+
+<link rel="stylesheet" type="text/css" media="all" href="js/calendar/calendar-blue.css" title="win2k-cold-1" />
+<script type="text/javascript" src="js/calendar/calendar.js"></script>
+<script type="text/javascript" src="js/calendar/lang/calendar-en.js"></script>
+<script type="text/javascript" src="js/calendar/calendar-setup.js"></script>
+    
+ <script src="js/jquery.table2excel.js"></script>
+ 
+	
+	<script language="javascript">
+		
+		$(document).ready(function() {
+   xls();
+			history.back();
+});
+
+function xls(){
+	 	$(".table2excel").table2excel({
+					exclude: ".noExl",
+					name: "Excel Document Name",
+					filename: "" + new Date().toISOString().replace(/[\-\:\.]/g, ""),
+					fileext: ".xls",
+					exclude_img: true,
+					exclude_links: true,
+					exclude_inputs: true
+				});
+				}
+
+
+</script>
+<script language="javascript">
+function Chk_All_1() {
+    for (var i = 0; i < document.form1.length; i++) {
+        if (document.form1.elements[i].type == 'checkbox') {
+            if (document.form1.elements[i].name.charAt(0) == 'C') {
+                if (document.forms[0].elements["CBL_Field1_0"].checked == true) {
+                    document.form1.elements[i].checked = true;
+                }
+                else {
+                    document.form1.elements[i].checked = false;
+                }
+            }
+        }
+    }
+}
+	
+	
+</SCRIPT>
+</head>
+	
+	 <%
+
+ Dim pic2,seq1,seq2,seq3,seq4,seq5,seq6,seq7,seq8,seqtt
+  Dim p As String = Request("p")
+  Dim snum As String = Request("snum")
+  Dim c As String = Request("c") 
+  Dim IDA As String = Request("ID") 
+  
+	Dim haveRec = False
+
+        '-- p 就是「目前在第幾頁?」    
+   Conn.open()
+   Dim SqlStra1 As String
+  
+       SqlStra1  = "SELECT * FROM self_chk order by date desc"
+	
+
+        Dim da As SqlDataAdapter = New SqlDataAdapter(SqlStra1, Conn)
+        Dim DS As DataSet = New DataSet
+        da.Fill(DS)    '-- 把SQL指令執行完成的結果，填入DataSet裡面。
+
+        Dim DT As DataTable = DS.Tables(0)
+        '=============  ADO.NET / DataSet ==(End)======
+
+        '---每頁展示 5 筆資料
+        Dim PageSize As Integer = 100
+
+        '--SQL指令共撈到多少筆（列）資料。RecordCount資料總筆（列）數
+        Dim RecordCount As Integer = 0
+        RecordCount = DT.Rows.Count()
+
+        '--如果撈不到資料，程式就結束。-- Start --------------
+        If RecordCount = 0 Then
+            'Response.Write("<h2>已送訂單是空的</h2>")
+            'Conn.Close()
+            Response.End()
+        End If    '--如果撈不到資料，程式就結束。-- End --
+
+
+        '--Pages 資料的總頁數。搜尋到的所有資料，共需「幾頁」才能全部呈現？
+        Dim Pages As Integer = 0
+        Pages = ((RecordCount + PageSize) - 1) \ PageSize
+
+        '--底下這一段IF判別式，是用來防呆，防止一些例外狀況。-- start --
+        '--有任何問題，就強制跳回第一頁（p=1）。
+        If IsNumeric(Request("p")) Then
+            '--頁數（p）務必是一個整數。而且需要大於零、比起「資料的總頁數」要少
+            If Request("p") <> "" And CInt(Request("p")) > 0 And CInt(Request("p")) <= Pages Then
+                p = CInt(Request("p"))
+            Else
+                p = 1
+            End If
+        Else
+            p = 1
+        End If  '--上面這一段IF判別式，是用來防呆，防止一些例外狀況。-- end --
+
+        '--NowPageCount，目前這頁的資料，要從 DataSet裡面的第幾筆（列）開始撈資料？？
+        Dim NowPageCount As Integer = 0
+        If (p > 0) Then
+            NowPageCount = (p - 1) * PageSize    '--PageSize，每頁展示5筆資料（上面設定過了）
+        End If
+
+        'Response.Write("<h3>已送訂單筆數共計" & RecordCount & "筆</h3>")
+	  
+        '--rowNo，目前畫面出現的這一頁，要撈出幾筆（列）資料
+        Dim rowNo As Integer = 0
+        Dim html As String = ""
+		%>
+		 
+<body>
+    <form id="form1" runat="server">
+			
+     <table id="customers" style="position:relative; margin-left:auto; margin-right:auto; width:990px;"  border ="0">
+       <tr>
+         <td width="100%">
+           <div>
+                <uc1:WebUserMenu ID="WebUserMenu" runat="server" />
+           </div>
+         </td>
+     </tr>
+    </table>
+	</form>
+   
+	<div align="center" style="width: 990px;border:1px #000000 solid;margin:0px auto;">
+	  <h3>自主輔導檢查申報(一般科)</h3>																				
+      <table width="100%" border="0">
+        <tbody>
+          <tr>
+            <td width="45%" align="center"><input type="button" style="width: 100px; font-size: 14px; background-color:darkgreen; color: #fff;"  onclick="window.location.href='Default.aspx'" value="一般科" />
+&nbsp;&nbsp;
+<input type="button" style="width: 100px; font-size: 14px; background-color:olivedrab; color: #fff;"  onclick="window.location.href='Default-1.aspx'" value="勞條科" /></td>
+            <td width="55%" align="center">
+<input type="button"  onclick="xls()" value="匯出Excel" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <table width="95%" id="tbData" class="table2excel" border="0" align="center" cellpadding="1" cellspacing="1" >
+        <tbody>
+    <tr style="color: #fff;">
+    <td align="center" bgcolor="#39A96B">申報日期</td>
+	<td align="center" bgcolor="#39A96B">申報編號</td>	
+	<td align="center" bgcolor="#39A96B">申報單位</td>
+	
+    <td align="center" bgcolor="#39A96B">1</td>
+<td align="center" bgcolor="#39A96B">2</td>
+<td align="center" bgcolor="#39A96B">3</td>
+<td align="center" bgcolor="#39A96B">4</td>
+<td align="center" bgcolor="#39A96B">5</td>
+<td align="center" bgcolor="#39A96B">6</td>
+<td align="center" bgcolor="#39A96B">7</td>
+<td align="center" bgcolor="#39A96B">8</td>
+<td align="center" bgcolor="#39A96B">9</td>
+<td align="center" bgcolor="#39A96B">10</td>
+<td align="center" bgcolor="#39A96B">11</td>
+<td align="center" bgcolor="#39A96B">12</td>
+<td align="center" bgcolor="#39A96B">13</td>
+<td align="center" bgcolor="#39A96B">14</td>
+<td align="center" bgcolor="#39A96B">15</td>
+<td align="center" bgcolor="#39A96B">16</td>
+<td align="center" bgcolor="#39A96B">17</td>
+<td align="center" bgcolor="#39A96B">18</td>
+<td align="center" bgcolor="#39A96B">19</td>
+<td align="center" bgcolor="#39A96B">20</td>
+<td align="center" bgcolor="#39A96B">21</td>
+<td align="center" bgcolor="#39A96B">22</td>
+<td align="center" bgcolor="#39A96B">23</td>
+<td align="center" bgcolor="#39A96B">24</td>
+<td align="center" bgcolor="#39A96B">25</td>
+<td align="center" bgcolor="#39A96B">26</td>
+<td align="center" bgcolor="#39A96B">27</td>
+<td align="center" bgcolor="#39A96B">28</td>
+<td align="center" bgcolor="#39A96B">29</td>
+<td align="center" bgcolor="#39A96B">30</td>
+<td align="center" bgcolor="#39A96B">31</td>
+<td align="center" bgcolor="#39A96B">32</td>
+<td align="center" bgcolor="#39A96B">33</td>
+<td align="center" bgcolor="#39A96B">34</td>
+<td align="center" bgcolor="#39A96B">35</td>
+<td align="center" bgcolor="#39A96B">36</td>
+<td align="center" bgcolor="#39A96B">37</td>
+<td align="center" bgcolor="#39A96B">38</td>
+<td align="center" bgcolor="#39A96B">39</td>
+<td align="center" bgcolor="#39A96B">40</td>
+<td align="center" bgcolor="#39A96B">41</td>
+<td align="center" bgcolor="#39A96B">42</td>
+<td align="center" bgcolor="#39A96B">43</td>
+<td align="center" bgcolor="#39A96B">44</td>
+<td align="center" bgcolor="#39A96B">45</td>
+<td align="center" bgcolor="#39A96B">46</td>
+<td align="center" bgcolor="#39A96B">47</td>
+<td align="center" bgcolor="#39A96B">48</td>
+<td align="center" bgcolor="#39A96B">49</td>
+<td align="center" bgcolor="#39A96B">50</td>
+<td align="center" bgcolor="#39A96B">51</td>
+<td align="center" bgcolor="#39A96B">52</td>
+<td align="center" bgcolor="#39A96B">53</td>
+<td align="center" bgcolor="#39A96B">54</td>
+<td align="center" bgcolor="#39A96B">55</td>
+<td align="center" bgcolor="#39A96B">56</td>
+<td align="center" bgcolor="#39A96B">57</td>
+<td align="center" bgcolor="#39A96B">58</td>
+<td align="center" bgcolor="#39A96B">59</td>
+<td align="center" bgcolor="#39A96B">60</td>
+<td align="center" bgcolor="#39A96B">61</td>
+<td align="center" bgcolor="#39A96B">62</td>
+<td align="center" bgcolor="#39A96B">63</td>
+<td align="center" bgcolor="#39A96B">64</td>
+<td align="center" bgcolor="#39A96B">65</td>
+<td align="center" bgcolor="#39A96B">66</td>
+<td align="center" bgcolor="#39A96B">67</td>
+<td align="center" bgcolor="#39A96B">68</td>
+<td align="center" bgcolor="#39A96B">69</td>
+<td align="center" bgcolor="#39A96B">70</td>
+<td align="center" bgcolor="#39A96B">71</td>
+<td align="center" bgcolor="#39A96B">72</td>
+<td align="center" bgcolor="#39A96B">73</td>
+<td align="center" bgcolor="#39A96B">74</td>
+<td align="center" bgcolor="#39A96B">75</td>
+<td align="center" bgcolor="#39A96B">76</td>
+<td align="center" bgcolor="#39A96B">77</td>
+<td align="center" bgcolor="#39A96B">78</td>
+<td align="center" bgcolor="#39A96B">79</td>
+<td align="center" bgcolor="#39A96B">80</td>
+<td align="center" bgcolor="#39A96B">81</td>
+<td align="center" bgcolor="#39A96B">82</td>
+<td align="center" bgcolor="#39A96B">83</td>
+<td align="center" bgcolor="#39A96B">84</td>
+<td align="center" bgcolor="#39A96B">85</td>
+<td align="center" bgcolor="#39A96B">86</td>
+<td align="center" bgcolor="#39A96B">87</td>
+<td align="center" bgcolor="#39A96B">88</td>
+
+	
+    </tr>
+			
+		  <%
+
+	While ((rowNo < PageSize) And (NowPageCount < RecordCount))
+            haveRec = True
+	%> 
+    <tr>
+		
+      <td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=Format(DT.Rows(NowPageCount).Item("date"), "yyyyMMdd") %></td>
+		 <td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("pc_code")%></td>
+      <td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("com_name")%></td>
+     
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("1")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("2")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("3")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("4")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("5")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("6")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("7")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("8")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("9")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("10")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("11")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("12")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("13")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("14")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("15")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("16")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("17")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("18")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("19")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("20")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("21")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("22")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("23")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("24")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("25")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("26")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("27")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("28")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("29")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("30")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("31")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("32")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("33")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("34")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("35")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("36")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("37")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("38")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("39")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("40")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("41")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("42")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("43")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("44")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("45")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("46")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("47")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("48")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("49")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("50")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("51")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("52")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("53")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("54")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("55")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("56")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("57")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("58")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("59")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("60")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("61")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("62")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("63")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("64")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("65")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("66")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("67")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("68")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("69")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("70")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("71")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("72")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("73")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("74")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("75")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("76")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("77")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("78")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("79")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("80")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("81")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("82")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("83")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("84")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("85")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("86")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("87")%></td>
+<td align="center" <%if rowNo mod 2 = 0 then%>bgcolor="#9AEB65" <%else%> bgcolor="#D9F86B"<%end if%>><%=DT.Rows(NowPageCount).Item("88")%></td>
+
+    
+    </tr>
+			    <%
+
+            NowPageCount = NowPageCount + 1
+           rowNo = rowNo + 1
+		   
+    End While
+	%> 
+					
+   
+  </tbody>
+</table>
+<p><br />
+</p>
+	
+																						
+</div>
+	
+	<%
+
+Conn.close() 
+	   %>
+</body>
+</html>

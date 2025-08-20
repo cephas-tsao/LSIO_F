@@ -1,0 +1,175 @@
+﻿<%@ Page Language="VB" AutoEventWireup="false" CodeFile="Default.aspx.vb" Inherits="basic_LSI028_Default" %>
+<%@ Register src="../../usercontrol/WebUserMenu.ascx" tagname="WebUserMenu" tagprefix="uc1" %>
+<%@ Register src="../../usercontrol/WebSubMenu.ascx" tagname="WebSubMenu" tagprefix="uc2" %>
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head id="Head1" runat="server">
+<title><%=ConfigurationManager.AppSettings("Prj_name")%></title>
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<link rel='stylesheet' href ="/../Setting/style<%=Get_SysPara("css_sys", "01")%>.css" type = 'text/css'/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.table2excel.js"></script>
+    <script language="javascript">
+
+        function xls() {
+
+            $("#GridView1.tabletoexcle").table2excel({
+                exclude: ".noExl",
+                name: "Worksheet Name",
+                filename: "" + new Date().toISOString().replace(/[\-\:\.]/g, ""),
+                fileext: ".xls",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        }
+
+
+</script>
+<script type="text/css">
+.gvStyle th
+{
+    background-color: #E2EAF2;
+    font-weight: lighter;
+    border: 1px solid #ccc;
+    height:25px;
+    text-align:center;
+}
+   .hiddencol { display: none; }
+</script>
+<style type="text/css">
+  .hiddencol
+  {
+    display: none;
+  }
+</style>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  
+</head>
+<body>
+    <form id="form1" runat="server">
+         <table id="customers" style="position:relative; margin-left:auto; margin-right:auto; width:990px;"  border ="0">
+       <tr>
+         <td width="100%">
+           <div>
+                <uc1:WebUserMenu ID="WebUserMenu" runat="server" />
+            </div>
+         </td>
+     </tr>
+     <tr>
+        <td>
+        <div style="text-align: center;">
+            <asp:Label ID="Label1" runat="server" style="text-align: center" Font-Bold="True" />
+        </div>
+        <%--<uc2:WebSubMenu ID="WebSubMenu" runat="server" />--%>
+   <div align="center" style="width: 990px;border:1px #000000 solid;margin:0px auto;">
+	  <h3>自主輔導檢查申報(一般科)<label  id="total"  for ="total" > </label></h3>																				
+      <table width="100%" border="0">
+        
+        <tbody>
+          <tr>
+            <td width="30%" align="center">
+                <label id="lblSites" runat="server" class="lblFieldDesc" >請選擇單位:</label>
+                 <asp:DropDownList ID="drpSites" runat="server" AutoPostBack="True"           
+            OnSelectedIndexChanged ="OnSelectedIndexChanged"  >
+            <asp:ListItem>一般科</asp:ListItem>
+            <asp:ListItem>勞條科</asp:ListItem>          
+        </asp:DropDownList>
+                <%-- <asp:Button runat="server"  ID="normal"  style="width: 100px; font-size: 14px; background-color:olivedrab; color: #fff;"  OnClick="normal_Click" Text="一般科" />
+               <input type="button" style="width: 100px; font-size: 14px; background-color:darkgreen; color: #fff;"  onclick="window.location.href = 'Default.aspx'" value="一般科" />
+&nbsp;&nbsp;
+                <asp:Button runat="server"  ID="labor"  style="width: 100px; font-size: 14px; background-color:olivedrab; color: #fff;"  OnClick="labor_Click" Text="勞條科" />--%>
+<%--<input type="submit" style="width: 100px; font-size: 14px; background-color:olivedrab; color: #fff;"  onserverclick="" value="勞條科" /> ondatabound="drpSites_DataBound"--%></td>
+              <td width="10%" align="center">
+       
+        </p>
+        <%--<form id="form2" runat="server">           <input value="Save" type="Submit" onserverclick="GetSelectedValue" runat="server" /> </form>
+                  <input type="submit" class="btn btn-primary" value="Send Message" runat="server" onserverclick="del_Click" />
+                  <input type="button" id="btnSubmit" value="刪除勾選" />
+                  <asp:Button runat="server"  ID="del"  BackColor="Red" OnClick="del_Click" Text="刪除勾選" /> <%--<asp:Button Text="Submit" runat="server" OnClick="Submit" /> --%> </td>
+            <td width="50%" align="center">
+     <%--&nbsp;&nbsp; <input type="button"  onclick="count_chk();" value="統計總數" />           --%>
+&nbsp;&nbsp; <input type="button"  onclick="window.location.href = 'Default3.aspx'" value="各季統計" />
+&nbsp;&nbsp;
+<input type="button"  onclick="window.location.href = 'Default-4.aspx'" value="調查匯出Excel" />
+&nbsp;&nbsp;
+<input type="button"  onclick="window.location.href = 'Default-4-1.aspx'" value="調查匯出ODF" />
+&nbsp;&nbsp;
+<input type="button"  onclick="xls()" value="匯出Excel" /></td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+     <table width="100%" border ="1" class="table2excel">
+          <tr class="style8">
+                <td colspan="3">
+                    <asp:ImageButton ID="IB_GV1_First1" runat="server" ImageUrl="~/images/First.gif" PostBackUrl="Default2.aspx" ToolTip="第一頁" />
+                    <asp:ImageButton ID="IB_GV1_Previous1" runat="server" ImageUrl="~/images/Previous.gif" PostBackUrl="Default2.aspx" ToolTip="上一頁" />
+                    <asp:ImageButton ID="IB_GV1_Next1" runat="server" ImageUrl="~/images/Next.gif" PostBackUrl="Default2.aspx" ToolTip="下一頁" />
+                    <asp:ImageButton ID="IB_GV1_Last1" runat="server" ImageUrl="~/images/Last.gif" PostBackUrl="Default2.aspx" ToolTip="最後頁" />
+					為確保查詢效能，預設只顯示當年度資料。
+                    <asp:GridView ID="GridView1" runat="server" AllowPaging="True" CssClass="tabletoexcle"
+                        AutoGenerateColumns="False" PageSize="100"
+                        DataSourceID="SqlDS1" BackColor="White" BorderColor="#CCCCCC" 
+                        BorderStyle="None" BorderWidth="1px" CellPadding="3">
+                        <RowStyle CssClass="grid4" ForeColor="#000066" />
+                        <Columns>
+                            <asp:TemplateField HeaderText="刪除">
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="ImageButton2" runat="server" CausesValidation="false" CommandName="delete"
+                                        ImageUrl="~/images/icon/delete.gif" OnClientClick="return confirm('確定要刪除資料?');"
+                                        Text="按鈕" ToolTip="刪除" />
+                                </ItemTemplate>
+                                <HeaderStyle CssClass="grid1" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                         <asp:TemplateField HeaderText="操作">
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="ImageButton3" runat="server" CausesValidation="false" 
+                                        CommandName="select" ImageUrl="~/images/icon/icon-survey.png" Width="37"  OnClick="ImageButton4_Click" 
+                                        Text="按鈕" ToolTip="操作" />
+                                </ItemTemplate>
+                                <HeaderStyle CssClass="grid1" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                              <asp:TemplateField HeaderText="檔案">
+                                <ItemTemplate>
+                                    <asp:ImageButton ID="ImageButton4" runat="server" CausesValidation="false" OnClick="ImgSelect_Click"
+                                        CommandName="select" ImageUrl="~/images/icon/icon-survey.png" Width="37"
+                                        Text="按鈕" ToolTip="檔案" />
+                                </ItemTemplate>
+                                <HeaderStyle CssClass="grid1" />
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                        </Columns>
+                        <FooterStyle CssClass="grid1" ForeColor="#000066" BackColor="White" />
+                        <SelectedRowStyle CssClass="grid8" BackColor="#669999" Font-Bold="True" 
+                            ForeColor="White"  />
+                        <HeaderStyle CssClass="grid3" Font-Bold="True" BackColor="#006699" 
+                            ForeColor="White" />
+                        <PagerStyle CssClass="grid5" HorizontalAlign="Left" BackColor="White" 
+                            ForeColor="#000066" />
+                        <EditRowStyle CssClass="grid6" />
+                        <AlternatingRowStyle CssClass="grid7" />
+                    </asp:GridView>
+                    <asp:ImageButton ID="IB_GV1_First2" runat="server" ImageUrl="~/images/First.gif" PostBackUrl="Default2.aspx" ToolTip="第一頁" />
+                    <asp:ImageButton ID="IB_GV1_Previous2" runat="server" ImageUrl="~/images/Previous.gif" PostBackUrl="Default2.aspx" ToolTip="上一頁" />
+                    <asp:ImageButton ID="IB_GV1_Next2" runat="server" ImageUrl="~/images/Next.gif" PostBackUrl="Default2.aspx" ToolTip="下一頁" />
+                    <asp:ImageButton ID="IB_GV1_Last2" runat="server" ImageUrl="~/images/Last.gif" PostBackUrl="Default2.aspx" ToolTip="最後頁" />
+                    <asp:Label ID="l_PageMsg" runat="server" /> 
+                </td>
+            </tr>
+         </table>
+    </div>
+             <asp:TextBox ID="txtSubWhere" runat="server" Visible="False" />
+        <asp:TextBox ID="txtOrder" runat="server" Visible="False" />
+        <asp:TextBox ID="txtPrimary" runat="server" Visible="False" />
+        <asp:TextBox ID="txtPgmType" runat="server" Visible="False" />
+        <asp:SqlDataSource ID="SqlDS1" runat="server" />
+        <asp:SqlDataSource ID="SqlDS2" runat="server" />
+    </form>
+</body>
+</html>
