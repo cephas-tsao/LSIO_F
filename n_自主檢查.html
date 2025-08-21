@@ -1,0 +1,182 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<form id="form1">
+<table cellpadding="5" cellspacing="0" bordercolor="#7EBAD1" border="1" bgcolor="#ffffff" style="border-collapse:collapse;" width="100%" summary="排版表格" align="center" class="c12">
+		      <tbody><tr bgcolor="#7EBAD1" align="center"><td colspan="4"> <h4 style="margin:0;">工地自主稽查申報</h4> </td></tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">事業單位資料</td></tr>
+              <tr>
+                <td><span id="l_com_name"><font color="red">*</font><label for="txt_com_name">事　業　單　位：</label></span></td>
+                <td colspan="3"><input name="txt_com_name" type="text" maxlength="50" id="txt_com_name" tabindex="1" value="請輸入事業單位名稱" tooltiptext="請輸入事業單位名稱" onfocus="if (this.value.indexOf('請輸入事業單位名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入事業單位名稱'}" onmouseover="window.status='請輸入事業單位名稱'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_att_name"><font color="red">*</font><label for="txt_att_name">稽查人員姓名：</label></span></td>
+				 <td><input name="txt_att_name" type="text" maxlength="20" id="txt_att_name" tabindex="2" value="請輸入稽查人員姓名" tooltiptext="請輸入稽查人員姓名" onfocus="if (this.value.indexOf('請輸入稽查人員姓名')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入稽查人員姓名'}" onmouseover="window.status='請輸入稽查人員姓名'; return true" onmouseout="window.status=''; return true"></td>
+			
+                <td><span id="l_att_dep"><font color="red">*</font><label for="txt_att_dep">稽查人員職稱：</label></span></td>
+                <td><input name="txt_att_dep" type="text" maxlength="20" id="txt_att_dep" tabindex="3" value="請輸入稽查人員職稱" tooltiptext="請輸入稽查人員職稱" onfocus="if (this.value.indexOf('請輸入稽查人員職稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入稽查人員職稱'}" onmouseover="window.status='請輸入稽查人員職稱'; return true" onmouseout="window.status=''; return true"></td>
+				
+              </tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">工程資料</td></tr>
+              <tr>
+                <td><span id="l_eng_name"><font color="red">*</font><label for="txt_eng_name">工　程　名　稱：</label></span></td>
+                <td colspan="3"><input name="txt_eng_name" type="text" maxlength="70" id="txt_eng_name" tabindex="4" value="請輸入工程名稱，如有括號，請用全形" tooltiptext="請輸入工程名稱，如有括號，請用全形" onfocus="if (this.value.indexOf('請輸入工程名稱，如有括號，請用全形')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工程名稱，如有括號，請用全形'}" onmouseover="window.status='請輸入工程名稱，如有括號，請用全形'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_eng_add"><font color="red">*</font><label for="txt_eng_add">工　程　地　址：</label></span></td>
+                <td colspan="3">臺北市 <select name="ddl_eng_area" onchange="javascript:setTimeout('__doPostBack(\'ddl_eng_area\',\'\')', 0)" id="ddl_eng_area" tabindex="5">
+	<option value="100">中正區</option>
+	<option value="103">大同區</option>
+	<option value="104">中山區</option>
+	<option value="105">松山區</option>
+	<option value="106">大安區</option>
+	<option value="108">萬華區</option>
+	<option selected="selected" value="110">信義區</option>
+	<option value="111">士林區</option>
+	<option value="112">北投區</option>
+	<option value="114">內湖區</option>
+	<option value="115">南港區</option>
+	<option value="116">文山區</option>
+
+</select>
+                                <select name="ddl_eng_road" id="ddl_eng_road" tabindex="5">
+	<option value="0001">大道路</option>
+	<option value="0002">中坡北路</option>
+	<option value="0003">中坡南路</option>
+	<option value="0004">仁愛路４段</option>
+	<option value="0005">文昌街</option>
+	<option value="0006">市民大道５段</option>
+	<option value="0007">市府路</option>
+	<option value="0008">永吉路</option>
+	<option value="0009">光復南路</option>
+	<option value="0010">吳興街</option>
+	<option value="0011">和平東路３段</option>
+	<option value="0012">忠孝東路４段</option>
+	<option value="0013">忠孝東路５段</option>
+	<option value="0014">東興路</option>
+	<option value="0015">林口街</option>
+	<option value="0016">松山路</option>
+	<option value="0017">松仁路</option>
+	<option value="0018">松平路</option>
+	<option value="0019">松信路</option>
+	<option value="0020">松勇路</option>
+	<option value="0021">松高路</option>
+	<option value="0022">松智路</option>
+	<option value="0023">松隆路</option>
+	<option value="0024">松勤街</option>
+	<option value="0025">松廉路</option>
+	<option value="0026">松壽路</option>
+	<option value="0027">松德路</option>
+	<option value="0028">臥龍街</option>
+	<option value="0029">虎林街</option>
+	<option value="0030">青雲街</option>
+	<option value="0031">信安街</option>
+	<option value="0032">信義路４段</option>
+	<option value="0033">信義路５段</option>
+	<option value="0034">信義路６段</option>
+	<option value="0035">基隆路１段</option>
+	<option value="0036">基隆路２段</option>
+	<option value="0037">崇德街</option>
+	<option value="0038">祥雲街</option>
+	<option value="0039">莊敬路</option>
+	<option value="0040">富陽街</option>
+	<option value="0041">景雲街</option>
+	<option value="0042">紫雲街</option>
+	<option value="0043">逸仙路</option>
+	<option value="0044">瑞雲街</option>
+	<option value="0045">嘉興街</option>
+	<option value="0046">福德街</option>
+
+</select><br>
+                                <input name="txt_eng_add" type="text" maxlength="100" id="txt_eng_add" tabindex="6" value="請輸入工程地址，如有括號，請用全形" tooltiptext="請輸入工程地址，如有括號，請用全形" onfocus="if (this.value.indexOf('請輸入工程地址，如有括號，請用全形')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工程地址，如有括號，請用全形'}" onmouseover="window.status='請輸入工程地址，如有括號，請用全形'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_com_tel1"><font color="red">*</font><label for="txt_com_tel1">公　司　電　話：</label></span></td>
+                <td><input name="txt_com_tel1" type="text" maxlength="16" id="txt_com_tel1" tabindex="7" value="請輸入公司電話" tooltiptext="請輸入公司電話" onfocus="if (this.value.indexOf('請輸入公司電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入公司電話'}" onmouseover="window.status='請輸入公司電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                <td><span id="l_com_tel2"><font color="red">*</font><label for="txt_com_tel2">工　地　電　話：</label></span></td>
+                <td><input name="txt_com_tel2" type="text" maxlength="16" id="txt_com_tel2" tabindex="8" value="請輸入工地電話" tooltiptext="請輸入工地電話" onfocus="if (this.value.indexOf('請輸入工地電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工地電話'}" onmouseover="window.status='請輸入工地電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_self_date"><font color="red">*</font>日　　　　　期：</span></td>
+                <td colspan="3">西元 <select name="ddl_year" id="ddl_year" tabindex="9">
+	<option selected="selected" value="2021">2021</option>
+	<option value="2022">2022</option>
+
+</select> 年 
+                                <select name="ddl_month" id="ddl_month" tabindex="10">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+                                <select name="ddl_date" id="ddl_date" tabindex="11">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 </td>
+              </tr>
+              <tr>
+                <td><span id="l_Start_path1"><label for="FU_start_path1">&nbsp;&nbsp;上傳總機構 </label><br>&nbsp;&nbsp;自行稽核表：</span></td>
+                <td colspan="3"><font color="red">*請確實填寫<u>稽核表</u>後，將文件掃描成JPG,DOC,PDF圖檔上傳</font><br>
+                    <input type="file" name="FU_start_path1" id="FU_start_path1" tabindex="12"></td>
+              </tr>
+              <tr>
+                <td><span id="l_VerCode"><label for="txt_VerCode">&nbsp;&nbsp;驗　　證　　碼：</label></span></td>
+                <td colspan="3"><input name="txt_VerCode" type="text" maxlength="6" id="txt_VerCode" tabindex="13" style="width:80px;">
+                                <img id="img_VerCode" alt="驗證碼" src="../public/VerCode.aspx?id=SelfCheck" align="middle" style="border-width:0px;">
+                                <input type="submit" name="bt_VerCode" value="重新產生驗證碼" id="bt_VerCode" tabindex="14" title="重新產生驗證碼" onkeypress="this.click();">
+                                <input type="submit" name="bt_CodeVoice" value="播放驗證碼語音" onclick="playvoice('player');return false;" id="bt_CodeVoice" tabindex="15" title="播放驗證碼語音" onkeypress="this.click();">
+                                <span id="player"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4" bgcolor="#dedede" align="center">
+                    <input type="submit" name="bt_clear" value="重填" id="bt_clear" tabindex="17" title="重填" onkeypress="this.click();">
+                    <input type="submit" name="bt_ok" value="送出" id="bt_ok" tabindex="16" title="送出" onkeypress="this.click();">
+                </td>
+              </tr>
+            </tbody></table>
+	  </form>
+	  <script>
+
+var x=$("#form1").serializeArray();
+console.log(x);
+	  </script>

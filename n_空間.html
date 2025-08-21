@@ -1,0 +1,364 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<form id="form1">
+<table cellpadding="5" cellspacing="0" bordercolor="#7EBAD1" border="1" bgcolor="#ffffff" style="border-collapse:collapse;" width="100%" summary="排版表格" align="center" class="c12">
+		      <tbody><tr bgcolor="#7EBAD1" align="center"><td colspan="4"> <h4 style="margin:0;">局限空間申報表</h4> </td></tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">聯絡資訊</td></tr>
+              <tr>
+                <td width="24%"><label for="txt_pet_name" id="l_pet_name"><font color="red">*</font><label for="txt_pet_name">通　　報　　人：</label></label></td>
+                <td width="26%"><input name="txt_pet_name" type="text" maxlength="10" id="txt_pet_name" tabindex="1" value="請輸入通報人姓名" tooltiptext="請輸入通報人姓名" onfocus="if (this.value.indexOf('請輸入通報人姓名')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入通報人姓名'}" onmouseover="window.status='請輸入通報人姓名'; return true" onmouseout="window.status=''; return true"></td>
+				
+                <td width="24%"><label for="txt_pet_tel1" id="l_pet_tel1"><font color="red">*</font><label for="txt_pet_tel1">連　絡　電　話： </label></label></td>
+                <td width="26%"><input name="txt_pet_tel1" type="text" maxlength="16" id="txt_pet_tel1" tabindex="2" value="請輸入通報人電話" tooltiptext="請輸入通報人電話" onfocus="if (this.value.indexOf('請輸入通報人電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入通報人電話'}" onmouseover="window.status='請輸入通報人電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_pet_date"><font color="red">*</font>通　報　日　期：</span></td>
+                <td colspan="3">
+				民國 <select name="ddl_year" id="ddl_year" tabindex="3">
+	<option selected="selected" value="2021">110</option>
+	<option value="2022">111</option>
+
+</select> 年 
+				
+                                <select name="ddl_month" id="ddl_month" tabindex="4">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+                                <select name="ddl_date" id="ddl_date" tabindex="5">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 </td>
+              </tr>
+              <tr>
+                <td><label for="txt_pet_mail" id="l_pet_mail"><font color="red">*</font><label for="txt_pet_mail">通報人E-mail：</label></label></td>
+                <td colspan="3"><input name="txt_pet_mail" type="text" maxlength="60" id="txt_pet_mail" tabindex="6" value="請輸入電子信箱" tooltiptext="請輸入電子信箱" onfocus="if (this.value.indexOf('請輸入電子信箱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入電子信箱'}" onmouseover="window.status='請輸入電子信箱'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">事業單位資料</td></tr>
+              <tr>
+                <td><label for="txt_com_name" id="l_com_name"><font color="red">*</font><label for="txt_com_name">通報事業單位名稱：</label></label></td>
+                <td colspan="3"><input name="txt_com_name" type="text" maxlength="50" id="txt_com_name" tabindex="7" value="請輸入通報事業單位名稱" tooltiptext="請輸入通報事業單位名稱" onfocus="if (this.value.indexOf('請輸入通報事業單位名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入通報事業單位名稱'}" onmouseover="window.status='請輸入通報事業單位名稱'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr>
+                <td><label for="txt_eng_add" id="l_eng_add"><font color="red">*</font><label for="txt_eng_add">作　業　地　址：</label></label></td>
+                <td colspan="3">
+					臺北市 
+						<label for="ddl_eng_area" id="l_ddl_eng_area"></label>
+						<select name="ddl_eng_area" onchange="javascript:setTimeout('__doPostBack(\'ddl_eng_area\',\'\')', 0)" id="ddl_eng_area" tabindex="8">
+	<option value="100">中正區</option>
+	<option value="103">大同區</option>
+	<option value="104">中山區</option>
+	<option value="105">松山區</option>
+	<option value="106">大安區</option>
+	<option value="108">萬華區</option>
+	<option selected="selected" value="110">信義區</option>
+	<option value="111">士林區</option>
+	<option value="112">北投區</option>
+	<option value="114">內湖區</option>
+	<option value="115">南港區</option>
+	<option value="116">文山區</option>
+
+</select>
+						
+						<label for="ddl_eng_road" id="l_ddl_eng_road"></label>
+                        <select name="ddl_eng_road" id="ddl_eng_road" tabindex="8">
+	<option value="0001">大道路</option>
+	<option value="0002">中坡北路</option>
+	<option value="0003">中坡南路</option>
+	<option value="0004">仁愛路４段</option>
+	<option value="0005">文昌街</option>
+	<option value="0006">市民大道５段</option>
+	<option value="0007">市府路</option>
+	<option value="0008">永吉路</option>
+	<option value="0009">光復南路</option>
+	<option value="0010">吳興街</option>
+	<option value="0011">和平東路３段</option>
+	<option value="0012">忠孝東路４段</option>
+	<option value="0013">忠孝東路５段</option>
+	<option value="0014">東興路</option>
+	<option value="0015">林口街</option>
+	<option value="0016">松山路</option>
+	<option value="0017">松仁路</option>
+	<option value="0018">松平路</option>
+	<option value="0019">松信路</option>
+	<option value="0020">松勇路</option>
+	<option value="0021">松高路</option>
+	<option value="0022">松智路</option>
+	<option value="0023">松隆路</option>
+	<option value="0024">松勤街</option>
+	<option value="0025">松廉路</option>
+	<option value="0026">松壽路</option>
+	<option value="0027">松德路</option>
+	<option value="0028">臥龍街</option>
+	<option value="0029">虎林街</option>
+	<option value="0030">青雲街</option>
+	<option value="0031">信安街</option>
+	<option value="0032">信義路４段</option>
+	<option value="0033">信義路５段</option>
+	<option value="0034">信義路６段</option>
+	<option value="0035">基隆路１段</option>
+	<option value="0036">基隆路２段</option>
+	<option value="0037">崇德街</option>
+	<option value="0038">祥雲街</option>
+	<option value="0039">莊敬路</option>
+	<option value="0040">富陽街</option>
+	<option value="0041">景雲街</option>
+	<option value="0042">紫雲街</option>
+	<option value="0043">逸仙路</option>
+	<option value="0044">瑞雲街</option>
+	<option value="0045">嘉興街</option>
+	<option value="0046">福德街</option>
+
+</select><br>
+						
+                        <input name="txt_eng_add" type="text" maxlength="100" id="txt_eng_add" tabindex="9" value="請輸入通報作業地址" tooltiptext="請輸入通報作業地址" onfocus="if (this.value.indexOf('請輸入通報作業地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入通報作業地址'}" onmouseover="window.status='請輸入通報作業地址'; return true" onmouseout="window.status=''; return true" style="width:400px;"></td>
+              </tr>
+              <tr>
+                <td><span id="l_eng_date"><font color="red">*</font>作業(施工)期程：</span></td>
+                <td colspan="3">
+				預計民國 
+						<select name="ddl_year_s" id="ddl_year_s" tabindex="10">
+	<option selected="selected" value="2021">110</option>
+	<option value="2022">111</option>
+
+</select> 年 
+						<label for="ddl_year_s" id="l_ddl_year_s"></label>
+						
+                        <select name="ddl_month_s" id="ddl_month_s" tabindex="11">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+						<label for="ddl_month_s" id="l_ddl_month_s"></label>	
+						
+                        <select name="ddl_date_s" id="ddl_date_s" tabindex="12">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 
+						<label for="ddl_date_s" id="l_ddl_date_s"></label>
+												
+            <br>～至民國 
+						<select name="ddl_year_e" id="ddl_year_e" tabindex="13">
+	<option selected="selected" value="2021">110</option>
+	<option value="2022">111</option>
+
+</select> 年 
+						 <label for="ddl_year_e" id="l_ddl_year_e"></label>	
+						
+                        <select name="ddl_month_e" id="ddl_month_e" tabindex="14">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+						 <label for="ddl_month_e" id="l_ddl_month_e"></label>
+							
+                        <select name="ddl_date_e" id="ddl_date_e" tabindex="15">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 </td>
+						
+						
+              </tr>
+              <tr>
+                <td><label for="ckl_pet_list" id="l_pet_list"><font color="red">*</font>通報性質(可複選)：</label></td>
+                <td colspan="3">
+								<table id="ckl_pet_list" border="0">
+	<tbody><tr>
+		<td><input id="ckl_pet_list_0" type="checkbox" name="ckl_pet_list$0" tabindex="16"><label for="ckl_pet_list_0">路邊人孔作業</label></td><td><input id="ckl_pet_list_4" type="checkbox" name="ckl_pet_list$4" tabindex="16"><label for="ckl_pet_list_4">汙水下水道作業</label></td>
+	</tr><tr>
+		<td><input id="ckl_pet_list_1" type="checkbox" name="ckl_pet_list$1" tabindex="16"><label for="ckl_pet_list_1">儲槽、物料艙內清理作業</label></td><td><input id="ckl_pet_list_5" type="checkbox" name="ckl_pet_list$5" tabindex="16"><label for="ckl_pet_list_5">歲修作業</label></td>
+	</tr><tr>
+		<td><input id="ckl_pet_list_2" type="checkbox" name="ckl_pet_list$2" tabindex="16"><label for="ckl_pet_list_2">地下室筏基作業</label></td><td><input id="ckl_pet_list_6" type="checkbox" name="ckl_pet_list$6" tabindex="16"><label for="ckl_pet_list_6">其他通風不充分場所作業</label></td>
+	</tr><tr>
+		<td><input id="ckl_pet_list_3" type="checkbox" name="ckl_pet_list$3" tabindex="16"><label for="ckl_pet_list_3">進入管線內部作業</label></td><td></td>
+	</tr>
+</tbody></table>
+                    其他說明
+							<label for="txt_pet_other" id="l_txt_pet_other"></label>
+						
+							<textarea name="txt_pet_other" rows="2" cols="20" id="txt_pet_other" tabindex="17" style="height:80px;width:400px;"></textarea></td>
+              </tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">承攬資料</td></tr>
+              <tr>
+                <td><span id="l_att"><font color="red">*</font>局限空間作業<br>&nbsp;&nbsp;承攬資訊：</span></td>
+                <td colspan="3">
+                  <table summary="排版用表格" width="100%" border="0">
+                    <tbody><tr>
+                      <td></td>
+                      <td>事業單位名稱</td>
+                      <td>事業單位地址</td>
+                      <td>聯絡電話</td>
+                    </tr>
+                    <tr>
+                      <th align="right">業主：</th>
+                      <td><label for="txt_att_name1"></label>
+					  <input name="txt_att_name1" type="text" maxlength="20" id="txt_att_name1" tabindex="18" value="請輸入名稱" onfocus="if (this.value.indexOf('請輸入名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入名稱'}" onmouseover="window.status='請輸入名稱'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_add1"></label>
+					  <input name="txt_att_add1" type="text" maxlength="100" id="txt_att_add1" tabindex="19" value="請輸入地址" onfocus="if (this.value.indexOf('請輸入地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入地址'}" onmouseover="window.status='請輸入地址'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_tel1"></label>
+					  <input name="txt_att_tel1" type="text" maxlength="16" id="txt_att_tel1" tabindex="20" value="請輸入電話" onfocus="if (this.value.indexOf('請輸入電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入電話'}" onmouseover="window.status='請輸入電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                    </tr>
+                    <tr>
+                      <th align="right">施工廠商：</th>
+                      <td><label for="txt_att_name2"></label>
+					  <input name="txt_att_name2" type="text" maxlength="20" id="txt_att_name2" tabindex="21" value="請輸入名稱" onfocus="if (this.value.indexOf('請輸入名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入名稱'}" onmouseover="window.status='請輸入名稱'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_add2"></label>
+					  <input name="txt_att_add2" type="text" maxlength="100" id="txt_att_add2" tabindex="22" value="請輸入地址" onfocus="if (this.value.indexOf('請輸入地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入地址'}" onmouseover="window.status='請輸入地址'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_tel2"></label>
+					  <input name="txt_att_tel2" type="text" maxlength="16" id="txt_att_tel2" tabindex="23" value="請輸入電話" onfocus="if (this.value.indexOf('請輸入電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入電話'}" onmouseover="window.status='請輸入電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                    </tr>
+                    <tr>
+                      <th align="right">承攬商：</th>
+                      <td><label for="txt_att_name3"></label>
+					  <input name="txt_att_name3" type="text" maxlength="20" id="txt_att_name3" tabindex="24" value="請輸入名稱" onfocus="if (this.value.indexOf('請輸入名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入名稱'}" onmouseover="window.status='請輸入名稱'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_add3"></label>
+					  <input name="txt_att_add3" type="text" maxlength="100" id="txt_att_add3" tabindex="25" value="請輸入地址" onfocus="if (this.value.indexOf('請輸入地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入地址'}" onmouseover="window.status='請輸入地址'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_tel3"></label>
+					  <input name="txt_att_tel3" type="text" maxlength="16" id="txt_att_tel3" tabindex="26" value="請輸入電話" onfocus="if (this.value.indexOf('請輸入電話')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入電話'}" onmouseover="window.status='請輸入電話'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+              <tr>
+                <td><span id="l_VerCode" for="txt_VerCode"><label for="txt_VerCode">&nbsp;&nbsp;驗　　證　　碼：</label></span></td>
+                <td colspan="3"><input name="txt_VerCode" type="text" maxlength="6" id="txt_VerCode" tabindex="27" style="width:80px;">
+                                <img id="img_VerCode" alt="驗證碼" src="../public/VerCode.aspx?id=SmallSpace" align="middle" style="border-width:0px;">
+                                <input type="submit" name="bt_VerCode" value="重新產生驗證碼" id="bt_VerCode" tabindex="28" title="重新產生驗證碼" onkeypress="this.click();">
+                                <input type="submit" name="bt_CodeVoice" value="播放驗證碼語音" onclick="playvoice('player');return false;" id="bt_CodeVoice" tabindex="29" title="播放驗證碼語音" onkeypress="this.click();">
+                                <span id="player"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4" bgcolor="#dedede" align="center">
+                    <input type="submit" name="bt_clear" value="重填" id="bt_clear" tabindex="31" title="重填" onkeypress="this.click();">
+                    <input type="submit" name="bt_ok" value="送出" id="bt_ok" tabindex="30" title="送出" onkeypress="this.click();">
+                </td>
+              </tr>
+            </tbody></table>
+	  </form>
+	  <script>
+
+var x=$("#form1").serializeArray();
+console.log(x);
+	  </script>

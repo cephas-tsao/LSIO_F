@@ -1,0 +1,334 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<form id="form1">
+<table border="0" cellspacing="0" cellpadding="0" summary="排版表格">
+        <tbody><tr>
+		  <td> <h1 style="background:url(../images/title-5-24.gif); width:700;height:45;font-size:120%">精準檢查作業</h1></td>
+		</tr>
+		<tr>
+		  <td>
+            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0" summary="排版用表格">
+              <tbody><tr>
+                <td width="99%" valign="bottom"><div align="right" class="w05"><p>您現在的位置：精準檢查作業-民眾填寫欄位</p></div>
+                </td>
+              </tr>
+            </tbody></table>
+            
+            <span id="l_ErrMsg" style="color:Red;font-weight:bold;"></span>
+		    <label for="ddl_date_e" id="l_ddl_date_e"></label><table cellpadding="5" cellspacing="0" bordercolor="#7EBAD1" border="1" bgcolor="#ffffff" style="border-collapse:collapse;" width="100%" summary="排版表格" align="center" class="c12">
+		      <tbody><tr bgcolor="#7EBAD1" align="center"><td colspan="20"><p><strong>精準檢查作業-民眾填寫欄位</strong></p></td></tr>
+              <tr><td colspan="20" bgcolor="#9EDAF1" align="center"><font color="red">事業單位資料</font></td></tr>
+              <tr>
+				<td colspan="4" align="left"><label for="txt_com_name" id="l_txt_com_name"><font color="red">*</font>通報單位:</label></td>			 
+                <td colspan="16">
+					
+					<input name="txt_com_name" type="text" maxlength="30" id="txt_com_name" tabindex="1" value="請輸入通報單位" tooltiptext="請輸入通報單位" onfocus="if (this.value.indexOf('請輸入通報單位')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入通報單位'}" onmouseover="window.status='請輸入通報單位'; return true" onmouseout="window.status=''; return true" style="width:300px;">
+				</td>
+              </tr>
+				<tr>
+                <td colspan="4"><label for="txt_att_name1" id="l_att_name1"><font color="red">*</font>聯絡人：</label></td>
+                <td colspan="6"><input name="txt_att_name1" type="text" maxlength="50" id="txt_att_name1" tabindex="2" value="請輸入聯絡人" tooltiptext="請輸入聯絡人" onfocus="if (this.value.indexOf('請輸入聯絡人')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入聯絡人'}" onmouseover="window.status='請輸入聯絡人'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+                <td colspan="4"><label for="txt_att_mail" id="l_att_mail"><font color="red">*</font>電子信箱：</label></td>
+                <td colspan="6"><input name="txt_att_mail" type="text" maxlength="50" id="txt_att_mail" tabindex="3" value="請輸入Email" tooltiptext="請輸入Email" onfocus="if (this.value.indexOf('請輸入Email')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入Email'}" onmouseover="window.status='請輸入Email'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+              </tr>
+			  <tr>
+                <td colspan="4"><label for="txt_att_tel1" id="l_att_tel1"><font color="red">*</font>聯絡電話：</label></td>
+                <td colspan="6"><input name="txt_att_tel1" type="text" maxlength="16" id="txt_att_tel1" tabindex="4" value="EX:02-12345678#123" tooltiptext="EX:02-12345678#123" onfocus="if (this.value.indexOf('EX:02-12345678#123')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:02-12345678#123'}" onmouseover="window.status='EX:02-12345678#123'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+                <td colspan="4"><label for="txt_att_cell_phone" id="l_att_cell_phone"><font color="red">*</font>手機：</label></td>
+                <td colspan="6"><input name="txt_att_cell_phone" type="text" maxlength="16" id="txt_att_cell_phone" tabindex="5" value="EX:0910-XXXXXX" tooltiptext="EX:0910-XXXXXX" onfocus="if (this.value.indexOf('EX:0910-XXXXXX')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:0910-XXXXXX'}" onmouseover="window.status='EX:0910-XXXXXX'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+              </tr>
+			  
+			  <tr>
+			  <td colspan="4"><label for="txt_pc_date" id="l_pc_date"><font color="red">*</font>通報日期：</label></td>
+              <td colspan="16"><span id="txt_pc_date" maxlength="50" style="display:inline-block;width:120px;">2021/10/29</span></td>
+              </tr>
+		  
+			  <tr><td colspan="20" bgcolor="#9EDAF1" align="center"><font color="red">承攬資料</font></td></tr>
+			  <tr>
+                <td colspan="4"><label for="txt_eng_name" id="l_eng_name"><font color="red">*</font>工程名稱：</label></td>
+                <td colspan="6"><input name="txt_eng_name" type="text" maxlength="50" id="txt_eng_name" tabindex="9" value="請輸入工程名稱" tooltiptext="請輸入工程名稱" onfocus="if (this.value.indexOf('請輸入工程名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工程名稱'}" onmouseover="window.status='請輸入工程名稱'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+                <td colspan="4"><label for="txt_eng_code" id="l_eng_code">建號：</label></td>
+                <td colspan="6"><input name="txt_eng_code" type="text" maxlength="20" id="txt_eng_code" tabindex="10" value="請輸入建號" tooltiptext="請輸入建號" onfocus="if (this.value.indexOf('請輸入建號')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入建號'}" onmouseover="window.status='請輸入建號'; return true" onmouseout="window.status=''; return true" style="width:180px;"></td>
+              </tr>
+              <tr>
+                <td colspan="4"><label for="txt_eng_add" id="l_eng_add"><font color="red">*</font>工程地址：</label></td>
+					<td colspan="16">
+					<label for="ddl_eng_area" id="l_ddl_eng_area">臺北市行政區</label>
+                    <select name="ddl_eng_area" onchange="javascript:setTimeout('__doPostBack(\'ddl_eng_area\',\'\')', 0)" id="ddl_eng_area" tabindex="11">
+	<option value="100">中正區</option>
+	<option value="103">大同區</option>
+	<option value="104">中山區</option>
+	<option value="105">松山區</option>
+	<option value="106">大安區</option>
+	<option value="108">萬華區</option>
+	<option selected="selected" value="110">信義區</option>
+	<option value="111">士林區</option>
+	<option value="112">北投區</option>
+	<option value="114">內湖區</option>
+	<option value="115">南港區</option>
+	<option value="116">文山區</option>
+
+</select>
+					
+					<label for="ddl_eng_road" id="l_ddl_eng_road">路段名</label>
+                    <select name="ddl_eng_road" id="ddl_eng_road" tabindex="12">
+	<option value="0001">大道路</option>
+	<option value="0002">中坡北路</option>
+	<option value="0003">中坡南路</option>
+	<option value="0004">仁愛路４段</option>
+	<option value="0005">文昌街</option>
+	<option value="0006">市民大道５段</option>
+	<option value="0007">市府路</option>
+	<option value="0008">永吉路</option>
+	<option value="0009">光復南路</option>
+	<option value="0010">吳興街</option>
+	<option value="0011">和平東路３段</option>
+	<option value="0012">忠孝東路４段</option>
+	<option value="0013">忠孝東路５段</option>
+	<option value="0014">東興路</option>
+	<option value="0015">林口街</option>
+	<option value="0016">松山路</option>
+	<option value="0017">松仁路</option>
+	<option value="0018">松平路</option>
+	<option value="0019">松信路</option>
+	<option value="0020">松勇路</option>
+	<option value="0021">松高路</option>
+	<option value="0022">松智路</option>
+	<option value="0023">松隆路</option>
+	<option value="0024">松勤街</option>
+	<option value="0025">松廉路</option>
+	<option value="0026">松壽路</option>
+	<option value="0027">松德路</option>
+	<option value="0028">臥龍街</option>
+	<option value="0029">虎林街</option>
+	<option value="0030">青雲街</option>
+	<option value="0031">信安街</option>
+	<option value="0032">信義路４段</option>
+	<option value="0033">信義路５段</option>
+	<option value="0034">信義路６段</option>
+	<option value="0035">基隆路１段</option>
+	<option value="0036">基隆路２段</option>
+	<option value="0037">崇德街</option>
+	<option value="0038">祥雲街</option>
+	<option value="0039">莊敬路</option>
+	<option value="0040">富陽街</option>
+	<option value="0041">景雲街</option>
+	<option value="0042">紫雲街</option>
+	<option value="0043">逸仙路</option>
+	<option value="0044">瑞雲街</option>
+	<option value="0045">嘉興街</option>
+	<option value="0046">福德街</option>
+
+</select><br>
+                    <input name="txt_eng_add" type="text" maxlength="100" id="txt_eng_add" tabindex="13" value="請輸入工程地址" tooltiptext="請輸入工程地址" onfocus="if (this.value.indexOf('請輸入工程地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工程地址'}" onmouseover="window.status='請輸入工程地址'; return true" onmouseout="window.status=''; return true" style="width:400px;">
+
+                    </td>
+                </tr>
+				<tr>
+                <td colspan="4"><label for="txt_eng_floor" id="l_eng_floor">作業區域及樓層：</label></td>
+					<td colspan="16"><input name="txt_eng_floor" type="text" maxlength="50" id="txt_eng_floor" tabindex="14" style="width:200px;">
+                    </td>
+                </tr>
+                <tr>
+                <td><span id="l_eng_date"><font color="red">*</font>預計施工期間：</span></td>
+                <td colspan="16">
+						起:西元 <select name="ddl_year_s" onchange="javascript:setTimeout('__doPostBack(\'ddl_year_s\',\'\')', 0)" id="ddl_year_s" tabindex="15">
+	<option selected="selected" value="2021">2021</option>
+	<option value="2022">2022</option>
+
+</select> 年 
+								<label for="ddl_year_s" id="l_ddl_year_s"></label>
+								
+								<select name="ddl_month_s" onchange="javascript:setTimeout('__doPostBack(\'ddl_month_s\',\'\')', 0)" id="ddl_month_s" tabindex="16">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+								<label for="ddl_month_s" id="l_ddl_month_s"></label>
+								
+                                <select name="ddl_date_s" id="ddl_date_s" tabindex="17">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 
+								<label for="ddl_date_s" id="l_ddl_date_s"></label>
+								
+                <br>迄:西元 <select name="ddl_year_e" onchange="javascript:setTimeout('__doPostBack(\'ddl_year_e\',\'\')', 0)" id="ddl_year_e" tabindex="18">
+	<option selected="selected" value="2021">2021</option>
+	<option value="2022">2022</option>
+
+</select> 年 
+							  <label for="ddl_year_e" id="l_ddl_year_e"></label>	
+				
+                              <select name="ddl_month_e" onchange="javascript:setTimeout('__doPostBack(\'ddl_month_e\',\'\')', 0)" id="ddl_month_e" tabindex="19">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+							  <label for="ddl_month_e" id="l_ddl_month_e"></label>
+							
+                             <select name="ddl_date_e" id="ddl_date_e" tabindex="20">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 </td>
+							 
+              </tr>
+			  
+			  <tr>
+                <td colspan="4"><span id="l_pc_kind"><font color="red">*</font>種類：</span></td>
+					<td colspan="8" valign="top">
+					<label for="chk_pc_kind1" id="l_pc_kind1">丁類危險性工作場所主要危害作業：</label><br>
+					<table id="chk_pc_kind1" border="0">
+	<tbody><tr>
+		<td><input id="chk_pc_kind1_0" type="checkbox" name="chk_pc_kind1$0" tabindex="21"><label for="chk_pc_kind1_0">異常氣壓作業</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_1" type="checkbox" name="chk_pc_kind1$1" tabindex="21"><label for="chk_pc_kind1_1">高度7公尺以上模板組、拆作業</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_2" type="checkbox" name="chk_pc_kind1$2" tabindex="21"><label for="chk_pc_kind1_2">高度2公尺以上擋土支撐組、拆作業</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_3" type="checkbox" name="chk_pc_kind1$3" tabindex="21"><label for="chk_pc_kind1_3">外牆施工架組立、拆除</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_4" type="checkbox" name="chk_pc_kind1$4" tabindex="21"><label for="chk_pc_kind1_4">室內挑高排架</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_5" type="checkbox" name="chk_pc_kind1$5" tabindex="21"><label for="chk_pc_kind1_5">鋼骨工程吊料平臺爬升</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind1_6" type="checkbox" name="chk_pc_kind1$6" tabindex="21"><label for="chk_pc_kind1_6">地下結構物模板、鋼筋吊料作業</label></td>
+	</tr>
+</tbody></table>
+                    </td>
+					<td colspan="8" valign="top">
+					<label for="chk_pc_kind2" id="l_pc_kind2">機械作業：</label><br>
+					<table id="chk_pc_kind2" border="0">
+	<tbody><tr>
+		<td><input id="chk_pc_kind2_0" type="checkbox" name="chk_pc_kind2$0" tabindex="22"><label for="chk_pc_kind2_0">升降機組拆(工地施工電梯)</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind2_1" type="checkbox" name="chk_pc_kind2$1" tabindex="22"><label for="chk_pc_kind2_1">一般電梯汰換或安裝工程</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind2_2" type="checkbox" name="chk_pc_kind2$2" tabindex="22"><label for="chk_pc_kind2_2">機械停車設備安裝工程</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind2_3" type="checkbox" name="chk_pc_kind2$3" tabindex="22"><label for="chk_pc_kind2_3">人字臂起重桿組拆作業</label></td>
+	</tr><tr>
+		<td><input id="chk_pc_kind2_4" type="checkbox" name="chk_pc_kind2$4" tabindex="22"><label for="chk_pc_kind2_4">塔式起重機升高及組拆作業</label></td>
+	</tr>
+</tbody></table>
+                    </td>
+                </tr>
+                <tr>
+
+			  </tr><tr><td colspan="20" bgcolor="#9EDAF1" align="center"><font color="red">表單驗證</font></td></tr>
+
+              <tr>
+                <td colspan="4"><label for="txt_VerCode" id="l_VerCode">&nbsp;&nbsp;驗證碼：</label></td>
+                <td colspan="16"><input name="txt_VerCode" type="text" maxlength="6" id="txt_VerCode" tabindex="39" style="width:120px;">
+                                <img id="img_VerCode" alt="驗證碼" src="../public/VerCode.aspx?id=PreciseCheck" align="middle" style="border-width:0px;">
+                                <input type="submit" name="bt_VerCode" value="重新產生驗證碼" id="bt_VerCode" tabindex="40" title="重新產生驗證碼" onkeypress="this.click();">
+                                <input type="submit" name="bt_CodeVoice" value="播放驗證碼語音" onclick="playvoice('player');return false;" id="bt_CodeVoice" tabindex="41" title="播放驗證碼語音" onkeypress="this.click();">
+                                <span id="player"></span></td>
+              </tr>
+              <tr>
+                <td colspan="20" bgcolor="#dedede" align="center">
+                    <input type="submit" name="bt_clear" value="重填" id="bt_clear" tabindex="42" title="重填" onkeypress="this.click();">
+                    <input type="submit" name="bt_ok" value="送出" id="bt_ok" tabindex="43" title="送出" onkeypress="this.click();" style="height:21px;">
+                </td>
+              </tr>
+              <tr>
+               <td colspan="20"><span id="l_content1">通報方式：<font color="red">通報不實或通報錯誤者，以未通報論。</font><br>勞檢處網站(網址：https://lio.gov.taipei)<br></span></td>
+              </tr>
+            </tbody></table>
+            
+            <input type="submit" name="bt_default" value="" onclick="return false;" id="bt_default" onkeypress="this.click();" style="display:none">
+          </td>
+        </tr>
+		<tr>
+		  <td style="text-align:right">
+            <a href="#" title="至最上方">Top</a>
+          </td>
+        </tr>
+      </tbody></table>
+	  </form>
+	  <script>
+
+var x=$("#form1").serializeArray();
+console.log(x);
+	  </script>

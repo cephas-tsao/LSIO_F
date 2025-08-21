@@ -1,0 +1,339 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<form id="form1">
+<table cellpadding="5" cellspacing="0" bordercolor="#7EBAD1" border="1" bgcolor="#ffffff" style="border-collapse:collapse;" width="100%" summary="排版表格" align="center" class="c12">
+		      <tbody><tr bgcolor="#7EBAD1" align="center"><td colspan="4"> <h4 style="margin:0;">校園營繕工程暨修繕作業</h4></td></tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">學校基本資料</td></tr>
+                 <tr>
+                <td><span id="l_att_add1"><font color="red">*</font>施　工　地　點：</span></td>
+                <td colspan="3">臺北市
+					<label for="ddl_att_area" id="l_ddl_att_area"></label>
+                    <select name="ddl_att_area" onchange="javascript:setTimeout('__doPostBack(\'ddl_att_area\',\'\')', 0)" id="ddl_att_area" tabindex="1">
+	<option selected="selected" value="10001">中正區</option>
+	<option value="10301">大同區</option>
+	<option value="10401">中山區</option>
+	<option value="10501">松山區</option>
+	<option value="10601">大安區</option>
+	<option value="10801">萬華區</option>
+	<option value="11001">信義區</option>
+	<option value="11101">士林區</option>
+	<option value="11201">北投區</option>
+	<option value="11401">內湖區</option>
+	<option value="114">內湖區</option>
+	<option value="11501">南港區</option>
+	<option value="11601">文山區</option>
+
+</select><br>
+                     校名:<select name="ddl_com_name" id="ddl_com_name" tabindex="2">
+	<option value="01001">螢橋國民小學附設幼兒園</option>
+	<option value="01002">國語實驗國民小學附設幼兒園</option>
+	<option value="01003">東門國民小學附設幼兒園</option>
+	<option value="01004">忠義國民小學附設幼兒園</option>
+	<option value="01005">河堤國民小學附設幼兒園</option>
+	<option value="01006">忠孝國民小學附設幼兒園</option>
+	<option value="01007">臺北市立教育大學附設實驗國民小學附設幼兒園</option>
+	<option value="01008">臺北市立中正幼兒園</option>
+	<option value="01009">臺北市私立南門幼兒園</option>
+	<option value="01010">財團法人中華基督教衛理公會附設臺北市私立城中衛理幼兒園</option>
+	<option value="01011">財團法人台北市私立強恕高級中學附設臺北市私立幼兒園</option>
+	<option value="01012">國防醫學院附設臺北市私立愛德幼兒園</option>
+	<option value="01013">臺北市私立傑瑞富幼兒園</option>
+	<option value="01014">臺北市私立聯華幼兒園</option>
+	<option value="01015">臺北市私立中正清華幼兒園</option>
+	<option value="01016">臺北市私立寶貝幼兒園</option>
+	<option value="01017">臺北市私立永康幼兒園</option>
+	<option value="01018">法務部附設臺北市私立員工子女幼兒園</option>
+	<option value="01019">國立臺灣大學醫學院附設醫院附設臺北市私立員工子女幼兒園</option>
+	<option value="01020">臺北市私立蒙特梭利理想園幼兒園</option>
+	<option value="01021">臺北市私立吉的堡巨勝幼兒園</option>
+	<option value="01022">臺灣高等法院附設臺北市私立員工子女幼兒園</option>
+	<option value="01023">財團法人信誼基金會附設臺北市私立實驗幼兒園</option>
+	<option value="01024">臺北市私立我們的中正幼兒園</option>
+	<option value="01025">臺北市私立涵鈺新天地幼兒園</option>
+	<option value="01026">臺北市私立智寶園幼兒園</option>
+	<option value="01027">財團法人台北基督教女青年會附設臺北市私立幼兒園</option>
+	<option value="01028">臺北市私立百家姓幼兒園</option>
+	<option value="01029">臺北市私立維格幼兒園</option>
+	<option value="01030">臺北市私立乖乖幼兒園</option>
+	<option value="02042">螢橋國小</option>
+	<option value="02043">河堤國小</option>
+	<option value="02044">忠義國小</option>
+	<option value="02045">國語實小</option>
+	<option value="02046">南門國小</option>
+	<option value="02047">東門國小</option>
+	<option value="02048">忠孝國小</option>
+	<option value="02049">市教大附小</option>
+	<option value="03056">建國中學</option>
+	<option value="03057">成功中學</option>
+	<option value="03058">北一女中</option>
+	<option value="03059">螢橋國中</option>
+	<option value="03060">古亭國中</option>
+	<option value="03061">南門國中</option>
+	<option value="03062">中正國中</option>
+	<option value="03063">強恕高中</option>
+	<option value="03064">南華高中</option>
+	<option value="03065">開南商工</option>
+	<option value="03066">台北伯大尼美國學校</option>
+	<option value="03067">弘道國中</option>
+	<option value="04001">臺北市立教育大學</option>
+	<option value="06001">臺北市私立宣宣托育中心</option>
+	<option value="06002">臺北市私立狀元兒童托育中心</option>
+	<option value="06003">臺北市私立高階兒童托育中心</option>
+
+</select>
+              </td></tr>
+                  <tr><td colspan="4" bgcolor="#9EDAF1" align="center">工程基本資料</td></tr>          
+                 <tr>
+                <td><span id="l_safe_item"><font color="red">*</font><label for="txt_safe_item">合約工程名稱：</label></span></td>
+                <td colspan="3"><input name="txt_safe_item" type="text" maxlength="30" id="txt_safe_item" tabindex="3" value="請輸入合約工程名稱" tooltiptext="請輸入合約工程名稱" onfocus="if (this.value.indexOf('請輸入合約工程名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入合約工程名稱'}" onmouseover="window.status='請輸入合約工程名稱'; return true" onmouseout="window.status=''; return true" style="width:300px;"></td>
+              </tr>   
+              <tr>
+                <td><span id="l_work_floor"><font color="red">*</font><label for="txt_work_floor">作業區域及樓層：</label></span></td>
+                <td><input name="txt_work_floor" type="text" maxlength="20" id="txt_work_floor" tabindex="4" value="EX:綜合大樓B1～3F" tooltiptext="EX:綜合大樓B1～3F" onfocus="if (this.value.indexOf('EX:綜合大樓B1～3F')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:綜合大樓B1～3F'}" onmouseover="window.status='EX:綜合大樓B1～3F'; return true" onmouseout="window.status=''; return true"></td>
+                <td colspan="2">
+                    <table id="ckl_work_floor_type" border="0" style="width:200px;">
+	<tbody><tr>
+		<td><input id="ckl_work_floor_type_0" type="checkbox" name="ckl_work_floor_type$0" tabindex="5"><label for="ckl_work_floor_type_0">屋頂</label></td><td><input id="ckl_work_floor_type_1" type="checkbox" name="ckl_work_floor_type$1" tabindex="5"><label for="ckl_work_floor_type_1">屋突</label></td><td><input id="ckl_work_floor_type_2" type="checkbox" name="ckl_work_floor_type$2" tabindex="5"><label for="ckl_work_floor_type_2">外牆</label></td>
+	</tr>
+</tbody></table></td>
+              </tr>
+                 <tr>
+                <td><span id="l_fix_type"><font color="red">*</font>種　　　　　類：</span></td>
+                <td colspan="3"><table id="ckl_fix_type" border="0">
+	<tbody><tr>
+		<td><input id="ckl_fix_type_0" type="checkbox" name="ckl_fix_type$0" tabindex="6"><label for="ckl_fix_type_0">新建工程</label></td><td><input id="ckl_fix_type_1" type="checkbox" name="ckl_fix_type$1" tabindex="6"><label for="ckl_fix_type_1">修繕工程</label></td><td><input id="ckl_fix_type_2" type="checkbox" name="ckl_fix_type$2" tabindex="6"><label for="ckl_fix_type_2">機電設備維護</label></td>
+	</tr><tr>
+		<td><input id="ckl_fix_type_3" type="checkbox" name="ckl_fix_type$3" tabindex="6"><label for="ckl_fix_type_3">結構補強</label></td><td><input id="ckl_fix_type_4" type="checkbox" name="ckl_fix_type$4" tabindex="6"><label for="ckl_fix_type_4">拆除工程</label></td><td><input id="ckl_fix_type_5" type="checkbox" name="ckl_fix_type$5" tabindex="6"><label for="ckl_fix_type_5">室內裝修</label></td>
+	</tr><tr>
+		<td><input id="ckl_fix_type_6" type="checkbox" name="ckl_fix_type$6" tabindex="6"><label for="ckl_fix_type_6">外牆修繕</label></td><td><input id="ckl_fix_type_7" type="checkbox" name="ckl_fix_type$7" tabindex="6"><label for="ckl_fix_type_7">屋頂作業</label></td><td><input id="ckl_fix_type_8" type="checkbox" name="ckl_fix_type$8" tabindex="6"><label for="ckl_fix_type_8">2公尺以上高處作業</label></td>
+	</tr><tr>
+		<td><input id="ckl_fix_type_9" type="checkbox" name="ckl_fix_type$9" tabindex="6"><label for="ckl_fix_type_9">使用合梯或施工架作業</label></td><td><input id="ckl_fix_type_10" type="checkbox" name="ckl_fix_type$10" tabindex="6"><label for="ckl_fix_type_10">其他</label></td><td></td>
+	</tr>
+</tbody></table></td>
+              </tr>
+              <tr>
+                <td><span id="l_work_date"><font color="red">*</font>施　工　期　間：</span></td>
+                <td colspan="3">
+				開工：西元 
+							<select name="ddl_year_s" id="ddl_year_s" tabindex="7">
+	<option selected="selected" value="2021">2021</option>
+	<option value="2022">2022</option>
+	<option value="2023">2023</option>
+	<option value="2024">2024</option>
+	<option value="2025">2025</option>
+	<option value="2026">2026</option>
+	<option value="2027">2027</option>
+	<option value="2028">2028</option>
+	<option value="2029">2029</option>
+	<option value="2030">2030</option>
+	<option value="2031">2031</option>
+	<option value="2032">2032</option>
+	<option value="2033">2033</option>
+	<option value="2034">2034</option>
+	<option value="2035">2035</option>
+	<option value="2036">2036</option>
+	<option value="2037">2037</option>
+	<option value="2038">2038</option>
+	<option value="2039">2039</option>
+	<option value="2040">2040</option>
+	<option value="2041">2041</option>
+
+</select> 年 
+							<label for="ddl_year_s" id="l_ddl_year_s"></label>
+														
+                            <select name="ddl_month_s" id="ddl_month_s" tabindex="8">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+							<label for="ddl_month_s" id="l_ddl_month_s"></label>
+							
+                            <select name="ddl_date_s" id="ddl_date_s" tabindex="9">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 
+							<label for="ddl_date_s" id="l_ddl_date_s"></label>
+							
+          <br>完工：西元 
+							<select name="ddl_year_e" id="ddl_year_e" tabindex="10">
+	<option selected="selected" value="2021">2021</option>
+	<option value="2022">2022</option>
+	<option value="2023">2023</option>
+	<option value="2024">2024</option>
+	<option value="2025">2025</option>
+	<option value="2026">2026</option>
+	<option value="2027">2027</option>
+	<option value="2028">2028</option>
+	<option value="2029">2029</option>
+	<option value="2030">2030</option>
+	<option value="2031">2031</option>
+	<option value="2032">2032</option>
+	<option value="2033">2033</option>
+	<option value="2034">2034</option>
+	<option value="2035">2035</option>
+	<option value="2036">2036</option>
+	<option value="2037">2037</option>
+	<option value="2038">2038</option>
+	<option value="2039">2039</option>
+	<option value="2040">2040</option>
+	<option value="2041">2041</option>
+
+</select> 年 
+							<label for="ddl_year_s" id="l_ddl_year_e"></label>
+							
+                            <select name="ddl_month_e" id="ddl_month_e" tabindex="11">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option selected="selected" value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+
+</select> 月 
+							<label for="ddl_month_e" id="l_ddl_month_e"></label>
+														
+                            <select name="ddl_date_e" id="ddl_date_e" tabindex="12">
+	<option value="01">01</option>
+	<option value="02">02</option>
+	<option value="03">03</option>
+	<option value="04">04</option>
+	<option value="05">05</option>
+	<option value="06">06</option>
+	<option value="07">07</option>
+	<option value="08">08</option>
+	<option value="09">09</option>
+	<option value="10">10</option>
+	<option value="11">11</option>
+	<option value="12">12</option>
+	<option value="13">13</option>
+	<option value="14">14</option>
+	<option value="15">15</option>
+	<option value="16">16</option>
+	<option value="17">17</option>
+	<option value="18">18</option>
+	<option value="19">19</option>
+	<option value="20">20</option>
+	<option value="21">21</option>
+	<option value="22">22</option>
+	<option value="23">23</option>
+	<option value="24">24</option>
+	<option value="25">25</option>
+	<option value="26">26</option>
+	<option value="27">27</option>
+	<option value="28">28</option>
+	<option selected="selected" value="29">29</option>
+	<option value="30">30</option>
+	<option value="31">31</option>
+
+</select> 日 
+							
+							
+					</td>	
+              </tr>
+                 <tr>
+                <td><span id="l_work_money"><font color="red">*</font><label for="txt_work_money">承　攬　金　額：</label></span></td>
+                <td colspan="3"><input name="txt_work_money" type="text" maxlength="20" id="txt_work_money" tabindex="13" value="請輸入承攬金額,數字" tooltiptext="請輸入承攬金額,數字" onfocus="if (this.value.indexOf('請輸入承攬金額,數字')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入承攬金額,數字'}" onmouseover="window.status='請輸入承攬金額,數字'; return true" onmouseout="window.status=''; return true" style="width:300px;"> </td>
+              </tr>   
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">聯絡資訊</td></tr>
+              <tr>
+                <td><span id="l_att"><font color="red">*</font>&nbsp;&nbsp;聯　絡　資　料：</span></td>
+                <td colspan="3">
+                  <table summary="排版用表格" width="100%" border="0">
+                    <tbody><tr>
+                      <td align="center">類別</td>
+                      <td>名稱</td>
+                      <td>聯絡人/工地負責人</td>
+                      <td>電話</td>
+                    </tr>
+                    <tr>
+                      <th>主辦單位</th>
+                      <td><label for="txt_att_cname1"></label><input name="txt_att_cname1" type="text" maxlength="50" id="txt_att_cname1" tabindex="14" value="EX:總務處" onfocus="if (this.value.indexOf('EX:總務處')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:總務處'}" onmouseover="window.status='EX:總務處'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_name1"></label><input name="txt_att_name1" type="text" maxlength="50" id="txt_att_name1" tabindex="15" value="請輸入聯絡人" onfocus="if (this.value.indexOf('請輸入聯絡人')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入聯絡人'}" onmouseover="window.status='請輸入聯絡人'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_tel1"></label><input name="txt_att_tel1" type="text" maxlength="16" id="txt_att_tel1" tabindex="16" value="請輸入電話,EX:02-12345678#123" tooltiptext="請輸入電話,EX:02-12345678#123" onfocus="if (this.value.indexOf('請輸入電話,EX:02-12345678#123')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入電話,EX:02-12345678#123'}" onmouseover="window.status='請輸入電話,EX:02-12345678#123'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                    </tr>
+                    <tr>
+                      <th>承攬廠商</th>
+                      <td><label for="txt_att_cname2"></label><input name="txt_att_cname2" type="text" maxlength="50" id="txt_att_cname2" tabindex="17" value="請輸入廠商名稱" onfocus="if (this.value.indexOf('請輸入廠商名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入廠商名稱'}" onmouseover="window.status='請輸入廠商名稱'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_name2"></label><input name="txt_att_name2" type="text" maxlength="50" id="txt_att_name2" tabindex="18" value="請輸入工地負責人" onfocus="if (this.value.indexOf('請輸入工地負責人')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工地負責人'}" onmouseover="window.status='請輸入工地負責人'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                      <td><label for="txt_att_tel2"></label><input name="txt_att_tel2" type="text" maxlength="11" id="txt_att_tel2" tabindex="19" value="請輸入行動電話,EX:09XX-XXXXXX" tooltiptext="請輸入行動電話,EX:09XX-XXXXXX" onfocus="if (this.value.indexOf('請輸入行動電話,EX:09XX-XXXXXX')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入行動電話,EX:09XX-XXXXXX'}" onmouseover="window.status='請輸入行動電話,EX:09XX-XXXXXX'; return true" onmouseout="window.status=''; return true" style="width:120px;"></td>
+                    </tr>
+					
+                  </tbody></table>
+				  備註：電話格式為02-XXXXXXXX，行動電話格式為：09XX-XXXXXX。
+                </td>
+              </tr>
+                 <tr>
+                <td><span id="l_dan_mail"><font color="red">*</font><label for="txt_att_mail">通　報　回　覆：</label></span></td>
+                <td colspan="3"><input name="txt_att_mail" type="text" maxlength="100" id="txt_att_mail" tabindex="20" value="請輸入聯絡E-mail" tooltiptext="請輸入聯絡E-mail" onfocus="if (this.value.indexOf('請輸入聯絡E-mail')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入聯絡E-mail'}" onmouseover="window.status='請輸入聯絡E-mail'; return true" onmouseout="window.status=''; return true" style="width:400px;"><br>
+                                <font color="red">(請填入E-mail，系統將自動回覆並帶入通報資料。)</font></td>
+              </tr>
+              <tr>
+                <td><span id="l_VerCode"><label for="txt_VerCode">&nbsp;&nbsp;驗　　證　　碼：</label></span></td>
+                <td colspan="3"><input name="txt_VerCode" type="text" maxlength="6" id="txt_VerCode" tabindex="21" style="width:80px;">
+                                <img id="img_VerCode" alt="驗證碼" src="../public/VerCode.aspx?id=Decoration" align="middle" style="border-width:0px;">
+                                <input type="submit" name="bt_VerCode" value="重新產生驗證碼" id="bt_VerCode" tabindex="22" title="重新產生驗證碼" onkeypress="this.click();">
+                                <input type="submit" name="bt_CodeVoice" value="播放驗證碼語音" onclick="playvoice('player');return false;" id="bt_CodeVoice" tabindex="23" title="播放驗證碼語音" onkeypress="this.click();">
+                                <span id="player"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4" bgcolor="#dedede" align="center">
+                    
+                    <input type="submit" name="bt_ok" value="送出" id="bt_ok" tabindex="25" title="送出" onkeypress="this.click();">
+                    <input type="submit" name="bt_clear" value="重填" id="bt_clear" tabindex="26" title="重填" onkeypress="this.click();">                    
+                </td>
+              </tr>
+            </tbody></table>
+	  </form>
+	  <script>
+
+var x=$("#form1").serializeArray();
+console.log(x);
+	  </script>

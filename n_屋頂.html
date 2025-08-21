@@ -1,0 +1,144 @@
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+<form id="form1">
+<table cellpadding="5" cellspacing="0" bordercolor="#7EBAD1" border="1" bgcolor="#ffffff" style="border-collapse:collapse;" width="100%" summary="排版表格" align="center" class="c12">
+		      <tbody><tr bgcolor="#7EBAD1" align="center"><td colspan="4"><h4 style="margin:0;">輕質屋頂與施工架及吊籠作業通報</h4></td></tr>
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">通報工程及事業單位資料</td></tr>
+              <tr><td rowspan="2" align="left"><font color="red">*</font>工程名稱及地址</td>
+                    <td colspan="3">工程名稱：(建號)<input name="txt_com_name" type="text" maxlength="30" id="txt_com_name" tabindex="1" value="工程名稱" tooltiptext="工程名稱" onfocus="if (this.value.indexOf('工程名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='工程名稱'}" onmouseover="window.status='工程名稱'; return true" onmouseout="window.status=''; return true" style="width:300px;">工程</td>
+                </tr>
+                <tr><td colspan="3">臺北市
+                    <select name="ddl_att_area" onchange="javascript:setTimeout('__doPostBack(\'ddl_att_area\',\'\')', 0)" id="ddl_att_area" tabindex="2">
+	<option value="100">中正區</option>
+	<option value="103">大同區</option>
+	<option value="104">中山區</option>
+	<option value="105">松山區</option>
+	<option value="106">大安區</option>
+	<option value="108">萬華區</option>
+	<option selected="selected" value="110">信義區</option>
+	<option value="111">士林區</option>
+	<option value="112">北投區</option>
+	<option value="114">內湖區</option>
+	<option value="115">南港區</option>
+	<option value="116">文山區</option>
+
+</select>
+                    <select name="ddl_att_road" id="ddl_att_road" tabindex="3">
+	<option value="0001">大道路</option>
+	<option value="0002">中坡北路</option>
+	<option value="0003">中坡南路</option>
+	<option value="0004">仁愛路４段</option>
+	<option value="0005">文昌街</option>
+	<option value="0006">市民大道５段</option>
+	<option value="0007">市府路</option>
+	<option value="0008">永吉路</option>
+	<option value="0009">光復南路</option>
+	<option value="0010">吳興街</option>
+	<option value="0011">和平東路３段</option>
+	<option value="0012">忠孝東路４段</option>
+	<option value="0013">忠孝東路５段</option>
+	<option value="0014">東興路</option>
+	<option value="0015">林口街</option>
+	<option value="0016">松山路</option>
+	<option value="0017">松仁路</option>
+	<option value="0018">松平路</option>
+	<option value="0019">松信路</option>
+	<option value="0020">松勇路</option>
+	<option value="0021">松高路</option>
+	<option value="0022">松智路</option>
+	<option value="0023">松隆路</option>
+	<option value="0024">松勤街</option>
+	<option value="0025">松廉路</option>
+	<option value="0026">松壽路</option>
+	<option value="0027">松德路</option>
+	<option value="0028">臥龍街</option>
+	<option value="0029">虎林街</option>
+	<option value="0030">青雲街</option>
+	<option value="0031">信安街</option>
+	<option value="0032">信義路４段</option>
+	<option value="0033">信義路５段</option>
+	<option value="0034">信義路６段</option>
+	<option value="0035">基隆路１段</option>
+	<option value="0036">基隆路２段</option>
+	<option value="0037">崇德街</option>
+	<option value="0038">祥雲街</option>
+	<option value="0039">莊敬路</option>
+	<option value="0040">富陽街</option>
+	<option value="0041">景雲街</option>
+	<option value="0042">紫雲街</option>
+	<option value="0043">逸仙路</option>
+	<option value="0044">瑞雲街</option>
+	<option value="0045">嘉興街</option>
+	<option value="0046">福德街</option>
+
+</select><br><label for="txt_att_add1"></label>
+                    <input name="txt_att_add1" type="text" maxlength="100" id="txt_att_add1" tabindex="4" value="請輸入工程地址" tooltiptext="請輸入工程地址" onfocus="if (this.value.indexOf('請輸入工程地址')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入工程地址'}" onmouseover="window.status='請輸入工程地址'; return true" onmouseout="window.status=''; return true" style="width:400px;">
+
+                    </td>
+                </tr>
+                <tr>
+                <td align="left" rowspan="2"><span id="Label2"><font color="red">*</font>施工廠商</span><br>
+                    <font color="red">請以通報義務人資料進行填寫：<br>
+                        1.屋頂作業廠商(4層樓或樓高12公尺以上)<br>
+                        2.施工架組配廠商(高度7層樓或20公尺以上)<br>
+                        3.吊籠使用廠商
+                    </font>
+
+                </td>
+                <td><label for="txt_att_name1">廠商名稱：</label> 
+				<input name="txt_att_name1" type="text" maxlength="50" id="txt_att_name1" tabindex="5" value="請輸入廠商名稱" tooltiptext="請輸入廠商名稱" onfocus="if (this.value.indexOf('請輸入廠商名稱')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入廠商名稱'}" onmouseover="window.status='請輸入廠商名稱'; return true" onmouseout="window.status=''; return true"></td>
+                <td><label for="txt_att_tel1">聯絡電話：<input name="txt_att_tel1" type="text" maxlength="16" id="txt_att_tel1" tabindex="6" value="EX:02-12345678#123" tooltiptext="EX:02-12345678#123" onfocus="if (this.value.indexOf('EX:02-12345678#123')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:02-12345678#123'}" onmouseover="window.status='EX:02-12345678#123'; return true" onmouseout="window.status=''; return true"></label></td>
+              </tr>
+              <tr>
+                <td><label for="txt_att_name2">現場負責人：</label><input name="txt_att_name2" type="text" maxlength="50" id="txt_att_name2" tabindex="7" value="請輸入現場負責人" tooltiptext="請輸入現場負責人" onfocus="if (this.value.indexOf('請輸入現場負責人')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入現場負責人'}" onmouseover="window.status='請輸入現場負責人'; return true" onmouseout="window.status=''; return true"></td>
+                <td><label for="txt_att_tel2">行動電話：</label><input name="txt_att_tel2" type="text" maxlength="10" id="txt_att_tel2" tabindex="8" value="EX:0910XXXXXX" tooltiptext="EX:0910XXXXXX" onfocus="if (this.value.indexOf('EX:0910XXXXXX')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='EX:0910XXXXXX'}" onmouseover="window.status='EX:0910XXXXXX'; return true" onmouseout="window.status=''; return true"></td>
+              </tr>
+              <tr>
+              <td align="left"><span id="l_roof_mail"><font color="red">*</font><label for="txt_roof_mail">通報回覆：</label></span></td>
+              <td colspan="3"><input name="txt_roof_mail" type="text" maxlength="100" id="txt_roof_mail" tabindex="9" value="請輸入Email" tooltiptext="請輸入Email" onfocus="if (this.value.indexOf('請輸入Email')!=-1) {this.value=''};" onblur="if(this.value=='') {this.value='請輸入Email'}" onmouseover="window.status='請輸入Email'; return true" onmouseout="window.status=''; return true" style="width:400px;"><br>
+              <font color="red">(請填入E-mail，系統將自動回覆並帶入通報資料。)</font></td>
+              </tr>
+              <tr><td align="left"><span id="l_pet_date">通報日期：</span></td>
+              <td colspan="3"><span id="txt_pet_date" tabindex="10" maxlength="50" style="display:inline-block;width:120px;">2021/10/29</span></td>
+              </tr>
+              
+             
+              
+              <tr><td colspan="4" bgcolor="#9EDAF1" align="center">通報從事作業項目
+                  <select name="selwork" onchange="javascript:setTimeout('__doPostBack(\'selwork\',\'\')', 0)" id="selwork">
+	<option selected="selected" value="00">請選擇</option>
+	<option value="01">輕質屋頂作業</option>
+	<option value="02">施工架組配與拆除</option>
+	<option value="03">使用吊籠作業</option>
+
+</select>
+                  </td></tr>
+                
+                 
+                
+              <tr>
+                <td><span id="l_VerCode"><label for="txt_VerCode">&nbsp;&nbsp;驗　　證　　碼：</label></span></td>
+                <td colspan="3"><input name="txt_VerCode" type="text" maxlength="6" id="txt_VerCode" tabindex="39" style="width:80px;">
+                                <img id="img_VerCode" alt="驗證碼" src="../public/VerCode.aspx?id=Decoration" align="middle" style="border-width:0px;">
+                                <input type="submit" name="bt_VerCode" value="重新產生驗證碼" id="bt_VerCode" tabindex="40" title="重新產生驗證碼" onkeypress="this.click();">
+                                <input type="submit" name="bt_CodeVoice" value="播放驗證碼語音" onclick="playvoice('player');return false;" id="bt_CodeVoice" tabindex="41" title="播放驗證碼語音" onkeypress="this.click();">
+                                <span id="player"></span></td>
+              </tr>
+              <tr>
+                <td colspan="4" bgcolor="#dedede" align="center">
+                    <input type="submit" name="bt_clear" value="重填" id="bt_clear" tabindex="42" title="重填" onkeypress="this.click();">
+                    <input type="submit" name="bt_ok" value="送出" id="bt_ok" tabindex="43" title="送出" onkeypress="this.click();" style="height:21px;">
+                </td>
+              </tr>
+              <tr>
+               <td colspan="3"><span id="l_content1">通報方式：<font color="red">(通報不實或通報錯誤者，以未通報論，未依規定通報者，處新臺幣六千元以上三萬元以下罰鍰。)</font>。<br>勞檢處網站(網址：https://lio.gov.taipei)<br>傳真號碼：（02）2308-6201<font color="red">(請確認傳真成功)</font>。<br>(紙本郵寄，以傳真、發送電子郵件或於本處網站通報者，以電腦系統紀錄為憑。)</span></td>
+              </tr>
+            </tbody></table>
+	  </form>
+	  <script>
+
+var x=$("#form1").serializeArray();
+console.log(x);
+	  </script>
